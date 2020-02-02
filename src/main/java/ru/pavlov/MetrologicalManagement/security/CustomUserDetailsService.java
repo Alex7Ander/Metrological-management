@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity.security;
+package ru.pavlov.MetrologicalManagement.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import ru.pavlov.stydySpringSecurity.domain.User;
-import ru.pavlov.stydySpringSecurity.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.domain.User;
+import ru.pavlov.MetrologicalManagement.domain.UserRepo;
 
 public class CustomUserDetailsService implements UserDetailsService{
 

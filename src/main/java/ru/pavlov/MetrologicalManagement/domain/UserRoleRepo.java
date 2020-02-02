@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity.domain;
+package ru.pavlov.MetrologicalManagement.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

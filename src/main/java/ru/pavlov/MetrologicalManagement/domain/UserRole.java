@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity.domain;
+package ru.pavlov.MetrologicalManagement.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity.config;
+package ru.pavlov.MetrologicalManagement.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ru.pavlov.stydySpringSecurity.domain.User;
-import ru.pavlov.stydySpringSecurity.security.CustomUserDetailsService;
+import ru.pavlov.MetrologicalManagement.domain.User;
+import ru.pavlov.MetrologicalManagement.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity

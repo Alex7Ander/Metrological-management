@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity;
+package ru.pavlov.MetrologicalManagement;
 
 import java.util.Map;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ru.pavlov.stydySpringSecurity.domain.User;
-import ru.pavlov.stydySpringSecurity.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.domain.User;
+import ru.pavlov.MetrologicalManagement.domain.UserRepo;
 
 @Controller
 public class MainController {

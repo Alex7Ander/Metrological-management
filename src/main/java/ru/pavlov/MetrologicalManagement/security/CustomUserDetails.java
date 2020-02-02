@@ -1,4 +1,4 @@
-package ru.pavlov.stydySpringSecurity.security;
+package ru.pavlov.MetrologicalManagement.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
-import ru.pavlov.stydySpringSecurity.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.domain.UserRepo;
 
 public class CustomUserDetails implements UserDetails{
 
