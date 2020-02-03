@@ -29,12 +29,12 @@ public class MainController {
 		return "admin";
 	}
 	
-	@GetMapping("toReg")
+	@GetMapping("toAdmin/toReg")
 	public String toRegMethod() {
 		return "reg";
 	}
 	
-	@PostMapping("reg")
+	@PostMapping("toAdmin/reg")
 	public String reg(@RequestParam String name, @RequestParam String pass, @RequestParam String email, @RequestParam int age, Map<String, Object> model) {
 		User user = new User(name, pass, email, age, "User");
 		userRepo.save(user);
@@ -42,8 +42,5 @@ public class MainController {
 		model.put("users", users);
 		return "admin";
 	}
-	
-	//@GetMapping("logout")
-	
 	
 }

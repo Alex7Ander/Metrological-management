@@ -23,16 +23,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-/*		auth.inMemoryAuthentication().withUser("Alex").password("111").roles("Admin").and()
-									 .withUser("Bob").password("222").roles("User");*/
-//		UserDetails userD = userDetailsService.loadUserByUsername("Alex");
+		//auth.inMemoryAuthentication().withUser("Alex").password("111").roles("ADMIN").and()
+		//							 .withUser("Bob").password("222").roles("USER");
 		auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/main").permitAll()
-			 .antMatchers("/toAdmin").hasRole("Admin").and()		
+		http.authorizeRequests().antMatchers("/main").hasAnyRole("ADMIN", "USER")
+			 .antMatchers("/toAdmin").hasRole("ADMIN").and()		
 			 .csrf().disable()
 			 .formLogin();
 	}

@@ -1,11 +1,13 @@
 package ru.pavlov.MetrologicalManagement.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
@@ -15,18 +17,19 @@ public class CustomUserDetails implements UserDetails{
 
 	private String userName;
 	private String pass;
-	private List<String> userRoles;
+	private List<GrantedAuthority> authorities;
 	
 	public CustomUserDetails(String name, String pass, List<String> userRoles) {
 		this.userName = name;
 		this.pass = pass;
-		this.userRoles = userRoles;
+		authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 	}
 	
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {		
-		String roles = StringUtils.collectionToCommaDelimitedString(userRoles);             
-		return AuthorityUtils.commaSeparatedStringToAuthorityList(roles); 
+	public Collection<? extends GrantedAuthority> getAuthorities() {		 
+		for (GrantedAuthority ga : this.authorities) System.out.println(ga.toString());
+		return this.authorities;
 	}
 
 	@Override
