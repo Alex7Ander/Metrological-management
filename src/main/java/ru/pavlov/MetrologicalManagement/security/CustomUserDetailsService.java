@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 			List<String> userRoles = new ArrayList<String>();
 			String currentRole = user.getRole();
 			userRoles.add(currentRole);
-			return new CustomUserDetails(user.getName(), user.getPass(), userRoles);
+			return new CustomUserDetails(user, userRoles);
 		}
 	}
 

@@ -11,19 +11,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
+import ru.pavlov.MetrologicalManagement.domain.User;
 import ru.pavlov.MetrologicalManagement.domain.UserRepo;
 
 public class CustomUserDetails implements UserDetails{
 
-	private String userName;
-	private String pass;
+	//private String userName;
+	//private String pass;
 	private List<GrantedAuthority> authorities;
+	private User myUser;
 	
-	public CustomUserDetails(String name, String pass, List<String> userRoles) {
-		this.userName = name;
-		this.pass = pass;
+	public CustomUserDetails(User user, List<String> userRoles) {
+		this.myUser = user;
+		//this.userName = name;
+		//this.pass = pass;
 		authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 	
 	@Override
@@ -35,13 +38,13 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return this.pass;
+		return this.myUser.getPass();
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.userName;
+		return this.myUser.getName();
 	}
 
 	@Override
@@ -66,6 +69,10 @@ public class CustomUserDetails implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public User getUser() {
+		return this.myUser;
 	}
 
 }

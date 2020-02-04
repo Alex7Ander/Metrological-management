@@ -3,6 +3,7 @@ package ru.pavlov.MetrologicalManagement;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.pavlov.MetrologicalManagement.domain.User;
 import ru.pavlov.MetrologicalManagement.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.security.CustomUserDetails;
 
 @Controller
 public class MainController {
@@ -18,7 +20,21 @@ public class MainController {
 	private UserRepo userRepo;
 	
 	@GetMapping
-	public String main() {
+	public String main(@AuthenticationPrincipal CustomUserDetails currentUser, Map<String, Object> model) {
+		model.put("userName", currentUser.getUsername());
+		model.put("userAge", Integer.toString(currentUser.getUser().getAge()));
+		model.put("userEmail", currentUser.getUser().getEmail());
+		
+		boolean added = false;
+		for (Object cRole : currentUser.getAuthorities().toArray()) {
+			String role = cRole.toString();
+			if (role.equals("ROLE_ADMIN")) {
+				model.put("linkToAdminPage", "toAdmin");
+				added = true;
+				break;
+			}
+		}
+		if (!added) model.put("linkToAdminPage", "");
 		return "main";
 	}
 	
