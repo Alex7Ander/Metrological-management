@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ru.pavlov.MetrologicalManagement.domain.User;
-import ru.pavlov.MetrologicalManagement.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.repos.UserRepo;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService{

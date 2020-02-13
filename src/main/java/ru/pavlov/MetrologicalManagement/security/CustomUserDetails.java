@@ -12,21 +12,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
 import ru.pavlov.MetrologicalManagement.domain.User;
-import ru.pavlov.MetrologicalManagement.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.repos.UserRepo;
 
 public class CustomUserDetails implements UserDetails{
 
-	//private String userName;
-	//private String pass;
 	private List<GrantedAuthority> authorities;
 	private User myUser;
 	
 	public CustomUserDetails(User user, List<String> userRoles) {
 		this.myUser = user;
-		//this.userName = name;
-		//this.pass = pass;
 		authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 	}
 	
 	@Override

@@ -1,16 +1,14 @@
 package ru.pavlov.MetrologicalManagement;
 
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import ru.pavlov.MetrologicalManagement.domain.User;
-import ru.pavlov.MetrologicalManagement.domain.UserRepo;
+import ru.pavlov.MetrologicalManagement.repos.UserRepo;
 import ru.pavlov.MetrologicalManagement.security.CustomUserDetails;
 
 @Controller
@@ -57,6 +55,11 @@ public class MainController {
 		Iterable<User> users = userRepo.findAll();
 		model.put("users", users);
 		return "admin";
+	}
+	
+	@GetMapping("toAddVerification")
+	public String toAddVerification() {
+		return "addVerification";
 	}
 	
 }
