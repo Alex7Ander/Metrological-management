@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title> Main page </title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+	<body>
+		<div class="container-md">
+            <div class="row">
+                <h1>Редактирование информации о типе атенюатора</h1>
+                <form method="post" action="/attenuators/editType" enctype="application/x-www-form-urlencoded">
+                    <table>
+                        <tr>
+                            <td>Id:</td>
+                            <td><span th:text="${attenuatorType.id}"></span><input type="hidden" name="id" th:value="${attenuatorType.id}"></td>
+                        </tr>
+                        <tr>
+                            <td>Название типа:</td>
+                            <td><input type="text" name="name" th:value="${attenuatorType.name}"></td>
+                        </tr>
+                        <tr>
+                            <td>Номер в гос реестре:</td>
+                            <td><input type="text" name="gosNumber" th:value="${attenuatorType.gosNumber}"></td>
+                        </tr>
+                        <tr>
+                            <td>Применяемый эталон:</td>
+                            <td><input type="text" name="standart" th:value="${attenuatorType.standart}"></td>
+                        </tr>
+                        <tr>
+                            <td>Поверочная схема:</td>
+                            <td><input type="text" name="verificationSchema" th:value="${attenuatorType.verificationSchema}"></td>
+                        </tr>
+                        <tr>
+                            <td>Ссылка (внутренняя):</td>
+                            <td><input type="text" name="link" th:value="${attenuatorType.link}"></td>
+                        </tr>
+                        <tr>
+                            <td>КСВН входа и выхода не более</td>
+                            <td><input type="text" name="vswrLimit" th:value="${attenuatorType.vswrLimit}"></td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="2">Частотный диапазон</td>
+                        </tr>
+                        <tr>
+                            <td>Волноводный тракт</td>
+                            <td><input type="text" name="waveguide" th:value="${attenuatorType.waveguide}"></td>
+                        </tr>
+                        <tr>
+                            <td>Нижняя частота диапазона</td>
+                            <td><input type="text" name="startFreq" th:value="${attenuatorType.startFreq}"></td>
+                        </tr>
+                        <tr>
+                            <td>Верхняя частота диапазона</td>
+                            <td><input type="text" name="stopFreq" th:value="${attenuatorType.stopFreq}"></td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="2">Диапазон ослабления</td>
+                        </tr>
+                        <tr>
+                            <td>Допуск на начальноее ослабение (не более)</td>
+                            <td><input type="text" name="initialAttenuation" th:value="${attenuatorType.initialAttenuation}"></td>
+                        </tr>
+                        <tr>
+                            <td>Минимальное ослабление</td>
+                            <td><input type="text" name="startAttenuation" th:value="${attenuatorType.startAttenuation}"></td>
+                        </tr>
+                        <tr>
+                            <td>Максимальное ослабление</td>
+                            <td><input type="text" name="stopAttenuation" th:value="${attenuatorType.stopAttenuation}"></td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Сохранить">
+                </form>
+            </div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	</body>
+</html>

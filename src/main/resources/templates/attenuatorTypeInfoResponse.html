@@ -1,0 +1,54 @@
+<table>
+    <tr>
+        <td>Тип аттенюатора</td>
+        <td><span id="att_type" th:text="${attenuatorType.name}"> - </span></td>
+    </tr>
+    <tr>
+        <td>Номер в гос. реестре</td>
+        <td><span id="att_gosnumber" th:text="${attenuatorType.gosNumber}"> - </span></td>
+    </tr>
+    <tr>
+        <td>Применяемый эталон</td>
+        <td><span id="att_standart" th:text="${attenuatorType.standart}"> - </span></td>
+    </tr>
+    <tr>
+        <td>Поверочная схема</td>
+        <td><span id="att_schema" th:text="${attenuatorType.verificationSchema}"> - </span></td>
+    </tr>
+    <tr>
+        <td>КСВН входа и выхода не более</td>
+        <td><span id="vswr_limit" th:text="${attenuatorType.vswrLimit}"></td>
+    </tr>
+    <tr>
+        <td class="align-middle" colspan="2">Частотный диапазон</td>
+    </tr>
+    <tr>
+        <td>Волноводный тракт</td>
+        <td><span id="att_schema" th:text="${attenuatorType.waveguide}"> - </span></td>
+    </tr>
+    <tr>
+        <td>Нижняя граница частотного диапазона</td>
+        <td><span id="att_schema" th:text="${attenuatorType.startFreq}"> - </span></td>
+    </tr>
+    <tr>       
+        <td>Верхняя граница частотного диапазона</td>
+        <td><span id="att_schema" th:text="${attenuatorType.stopFreq}"> - </span></td>
+    </tr>
+    <tr>
+        <td class="align-middle" colspan="2">Диапазон ослабления</td>
+    </tr>
+    <tr>
+        <td>Начальное ослабление не более</td>
+        <td><span id="att_schema" th:text="${attenuatorType.initialAttenuation}"> - </span></td>
+    </tr>
+
+    <tr>
+        <td>От </td>
+        <td><span id="att_schema" th:text="${attenuatorType.startAttenuation}"> - </span></td>
+    </tr>
+    <tr>
+        <td>До </td>
+        <td><span id="att_schema" th:text="${attenuatorType.stopAttenuation}"> - </span></td>
+    </tr>
+</table>
+<button onclick="editPageLoad();">Редктировать</button>
