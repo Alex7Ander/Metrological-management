@@ -1,24 +1,30 @@
-package ru.pavlov.MetrologicalManagement.domain;
+package ru.pavlov.MetrologicalManagement.domain.measurment;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
+
 @Entity
-@Table(name = "attenuator_measurmnet_results")
-public class AttenuatorMeasurmentResult implements MeasurmentResult{
+@Table(name = "vswr_results")
+public class VSWRMeasurmentResult implements MeasurmentResult{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
 	private double freq;
-	private String steps;
 	private double result;
 	private double error;
-	private String sutability;
+	
+	@ManyToOne
+	@JoinColumn(name = "verification_procedure_id")
+	private VerificationProcedure verificationProcedure;
 	
 	public long getId() {
 		return id;
@@ -32,12 +38,6 @@ public class AttenuatorMeasurmentResult implements MeasurmentResult{
 	public void setFreq(double freq) {
 		this.freq = freq;
 	}
-	public String getSteps() {
-		return steps;
-	}
-	public void setSteps(String steps) {
-		this.steps = steps;
-	}
 	public double getResult() {
 		return result;
 	}
@@ -49,11 +49,5 @@ public class AttenuatorMeasurmentResult implements MeasurmentResult{
 	}
 	public void setError(double error) {
 		this.error = error;
-	}
-	public String getSutability() {
-		return sutability;
-	}
-	public void setSutability(String sutability) {
-		this.sutability = sutability;
 	}
 }
