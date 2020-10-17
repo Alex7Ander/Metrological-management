@@ -1,43 +1,24 @@
 package ru.pavlov.MetrologicalManagement.domain.measurment;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
 
 @Entity
 @Table(name = "init_attenuation_results")
-public class InitialAttenuationMeasurmentResult implements MeasurmentResult {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
-	private double freq;
-	private double value;
-	private double error;
-	public long getId() {
-		return id;
+public class InitialAttenuationMeasurmentResult extends MeasurmentResult {
+	
+	@ManyToOne
+	@JoinColumn(name = "verification_procedure_id")
+	private VerificationProcedure verificationProcedure;
+	
+	public VerificationProcedure getVerificationProcedure() {
+		return verificationProcedure;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public double getFreq() {
-		return freq;
-	}
-	public void setFreq(double freq) {
-		this.freq = freq;
-	}
-	public double getValue() {
-		return value;
-	}
-	public void setValue(double value) {
-		this.value = value;
-	}
-	public double getError() {
-		return error;
-	}
-	public void setError(double error) {
-		this.error = error;
+	public void setVerificationProcedure(VerificationProcedure verificationProcedure) {
+		this.verificationProcedure = verificationProcedure;
 	}
 }

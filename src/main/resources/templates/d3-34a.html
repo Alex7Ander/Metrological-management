@@ -41,123 +41,176 @@
                     </table>
                 </div>
             </div>
+
             <div class="row">
-                <h5>Таблица 1 - Измеренные значения КСВН</h5>
-                <table style="width: 100%;">
-                    <tr>
-                        <td rowspan="2"></td>
-                        <td colspan="4">Частоты</td>
-                    </tr>
-                    <tr>
-                        <td>55.5 кГц</td>
-                        <td>5 МГц</td>
-                        <td>6,5 МГц</td>
-                        <td>30 МГц</td>
-                    </tr>
-                    <tr>
-                        <td>КСВН входа</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>КСВН выхода</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                </table>
-
-                <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
-                <table style="width: 100%;">
-                    <tr>
-                        <td rowspan="2"></td>
-                        <td colspan="4">Частоты</td>
-                    </tr>
-                    <tr>
-                        <td>55.5 кГц</td>
-                        <td>5 МГц</td>
-                        <td>6,5 МГц</td>
-                        <td>30 МГц</td>
-                    </tr>
-                    <tr>
-                        <td>Нач. осл.</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                </table>
-
-                <h5>Таблица 3 - Измеренные значения разностного ослабления</h5>
-                <table style="width: 100%;">
-                    <tr>
-                        <td rowspan="2">Ступени</td>
-                        <td colspan="4">Частоты</td>
-                    </tr>
-                    <tr>
-                        <td>55.5 кГц</td>
-                        <td>5 МГц</td>
-                        <td>6,5 МГц</td>
-                        <td>30 МГц</td>
-                    </tr>
-                    <tr>
-                        <td>0-10</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-20</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-30</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-40</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-50</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-60</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-70</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                </table>
+                <div class="col-md-12">
+                    <h5>Таблица 1 - Измеренные значения КСВН</h5>
+                    <form id="vswrform" method="post" action="/attenuators/d3-34a/analyze">
+                        <input type="hidden" name="code" th:value="${procedureCode}">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td rowspan="2"></td>
+                                <td colspan="4">Частоты</td>
+                            </tr>
+                            <tr>
+                                <td>12,05 ГГЦ</td>
+                                <td>15,00 ГГц</td>
+                                <td>17,44 МГц</td>
+                            </tr>
+                            <tr>
+                                <td>КСВН входа</td>
+                                <td><input type="text" style="width: 100%;" value="1" name="vswr_in_freq_12.05" id="vswr_in_freq1"></td>
+                                <td><input type="text" style="width: 100%;" value="2" name="vswr_in_freq_15.00" id="vswr_in_freq2"></td>
+                                <td><input type="text" style="width: 100%;" value="3" name="vswr_in_freq_17.44" id="vswr_in_freq3"></td>
+                            </tr>
+                            <tr>
+                                <td>КСВН выхода</td>
+                                <td><input type="text" style="width: 100%;" value="8" name="vswr_out_freq_12.05" id="vswr_out_freq1"></td>
+                                <td><input type="text" style="width: 100%;" value="7" name="vswr_out_freq_15.00" id="vswr_out_freq2"></td>
+                                <td><input type="text" style="width: 100%;" value="6" name="vswr_out_freq_17.44" id="vswr_out_freq3"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
+                    <form id="initialAttenuationForm" method="post" action="/attenuators/d3-34a/analyze">
+                        <input type="hidden" name="code" th:value="${procedureCode}">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td rowspan="2"></td>
+                                <td colspan="4">Частоты</td>
+                            </tr>
+                            <tr>
+                                <td>12,05 ГГЦ</td>
+                                <td>15,00 ГГц</td>
+                                <td>17,44 МГц</td>
+                            </tr>
+                            <tr>
+                                <td>Нач. осл.</td>
+                                <td><input type="text" style="width: 100%;" name="init_att_freq_12.05"></td>
+                                <td><input type="text" style="width: 100%;" name="init_att_freq_15.00"></td>
+                                <td><input type="text" style="width: 100%;" name="init_att_freq_17.44"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Таблица 3 - Измеренные значения разностного ослабления</h5>
+                    <form id="differentialAttenuationForm" method="post" action="/attenuators/d3-34a/analyze">
+                    <input type="hidden" name="code" th:value="${procedureCode}">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td rowspan="2">Ступени</td>
+                            <td colspan="4">Частоты</td>
+                        </tr>
+                        <tr>
+                            <td>12,05 ГГЦ</td>
+                            <td>15,00 ГГц</td>
+                            <td>17,44 МГц</td>
+                        </tr>
+                        <tr>
+                            <td>0-10</td>
+                            <td><input type="text" style="width: 100%;" name="0-10_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-10_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-10_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-20</td>
+                            <td><input type="text" style="width: 100%;" name="0-20_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-20_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-20_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-30</td>
+                            <td><input type="text" style="width: 100%;" name="0-30_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-30_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-30_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-40</td>
+                            <td><input type="text" style="width: 100%;" name="0-40_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-40_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-40_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-50</td>
+                            <td><input type="text" style="width: 100%;" name="0-50_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-50_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-50_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-60</td>
+                            <td><input type="text" style="width: 100%;" name="0-60_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-60_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-60_freq_17.44"></td>
+                        </tr>
+                        <tr>
+                            <td>0-70</td>
+                            <td><input type="text" style="width: 100%;" name="0-70_freq_12.05"></td>
+                            <td><input type="text" style="width: 100%;" name="0-70_freq_15.00"></td>
+                            <td><input type="text" style="width: 100%;" name="0-70_freq_17.44"></td>
+                        </tr>
+                    </table>
+                </form>
+                <input type="button" value="Анализировать" onclick="sendData();">
+            </div>
+
+            <div class="row" id="sending_results">
+
+            </div>
+            
 		</div>
 
 		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script>
+            function sendData(){
+                $("#sending_results").empty();
+                sendVSWR();
+                sendInitialAttenuation();
+                sendDifferentialAttenuation();
+                /*
+                $.post("/attenuators/d3-34a/getVSWR", $("#vswrform").serialize());
+                $.post("/attenuators/d3-34a/getInitialAttenuation", $("#initialAttenuationForm").serialize());
+                $.post("/attenuators/d3-34a/getDifferentialAttenuation", $("#differentialAttenuationForm").serialize());
+                */
+            }
+
+            function sendVSWR(){
+                let done = false;
+                $.post("/attenuators/d3-34a/getVSWR", $("#vswrform").serialize(), function(data){
+                    $("#sending_results").append(data);
+                    done = true;
+                });
+                return done;
+            }
+
+            function sendInitialAttenuation(){
+                let done = false;
+                $.post("/attenuators/d3-34a/getInitialAttenuation", $("#initialAttenuationForm").serialize(), function(data){
+                    $("#sending_results").append(data);
+                    done = true;
+                });
+                return done;
+            }
+
+            function sendDifferentialAttenuation(){
+                let done = false;
+                $.post("/attenuators/d3-34a/getDifferentialAttenuation", $("#differentialAttenuationForm").serialize(), function(data){
+                    $("#sending_results").append(data);
+                    done = true;
+                });
+                return done;
+            }
+        </script>
+
 	</body>
 </html>

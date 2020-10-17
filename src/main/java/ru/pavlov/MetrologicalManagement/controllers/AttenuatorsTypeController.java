@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.pavlov.MetrologicalManagement.domain.AttenuatorType;
 import ru.pavlov.MetrologicalManagement.repos.AttenuatorTypeRepo;
@@ -96,6 +97,9 @@ public class AttenuatorsTypeController {
 		return "d1-13";
 	}
 	
-
+	@GetMapping("d1-13a")
+	public String d1_13a_Page(){
+		return "d1-13a";
+	}
 	
 }

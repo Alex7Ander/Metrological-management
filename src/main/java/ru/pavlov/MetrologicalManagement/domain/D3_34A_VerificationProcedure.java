@@ -1,71 +1,68 @@
 package ru.pavlov.MetrologicalManagement.domain;
 
-import java.util.Date;
 import java.util.Map;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
+import ru.pavlov.MetrologicalManagement.domain.measurment.InitialAttenuationMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.VSWRMeasurmentResult;
 
 @Entity
 @Table(name="veriication_procedures")
-public class D3_34A_VerificationProcedure implements VerificationProcedure {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
-	private Date date;
-	private double temperature;
-	private double humidity;
-	private double preasure;
+public class D3_34A_VerificationProcedure extends VerificationProcedure {
 	
 	@OneToMany(mappedBy = "verificationProcedure")
 	@MapKey(name = "freq")
-	private Map<Double, VSWRMeasurmentResult> vswrResults;
+	private Map<Double, VSWRMeasurmentResult> vswrInResults;
+	
+	@OneToMany(mappedBy = "verificationProcedure")
+	@MapKey(name = "freq")
+	private Map<Double, VSWRMeasurmentResult> vswrOutResults;
+	
+	@OneToMany(mappedBy = "verificationProcedure")
+	@MapKey(name = "freq")
+	private Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults;
+		
+	@OneToMany(mappedBy = "verificationProcedure")
+	@MapKey(name = "freq")
+	private Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult;
 	
 	@OneToOne
-	private D3_34A device;
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public double getTemperature() {
-		return temperature;
-	}
-	public void setTemperature(double temperature) {
-		this.temperature = temperature;
-	}
-	public double getHumidity() {
-		return humidity;
-	}
-	public void setHumidity(double humidity) {
-		this.humidity = humidity;
-	}
-	public double getPreasure() {
-		return preasure;
-	}
-	public void setPreasure(double preasure) {
-		this.preasure = preasure;
-	}
+	private D3_34A device;	
 	public D3_34A getDevice() {
 		return device;
 	}
 	public void setDevice(D3_34A device) {
 		this.device = device;
+	}
+	public Map<Double, VSWRMeasurmentResult> getVswrInResults() {
+		return vswrInResults;
+	}
+	public void setVswrInResults(Map<Double, VSWRMeasurmentResult> vswrInResults) {
+		this.vswrInResults = vswrInResults;
+	}
+	public Map<Double, VSWRMeasurmentResult> getVswrOutResults() {
+		return vswrOutResults;
+	}
+	public void setVswrOutResults(Map<Double, VSWRMeasurmentResult> vswrOutResults) {
+		this.vswrOutResults = vswrOutResults;
+	}
+	public Map<Double, InitialAttenuationMeasurmentResult> getInitialAttenuationResults() {
+		return initialAttenuationResults;
+	}
+	public void setInitialAttenuationResults(Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults) {
+		this.initialAttenuationResults = initialAttenuationResults;
+	}
+	public Map<Double, DifferentialAttenuationMeasurmentResult> getDifferentialAttenuationResult() {
+		return differentialAttenuationResult;
+	}
+	public void setDifferentialAttenuationResult(
+			Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult) {
+		this.differentialAttenuationResult = differentialAttenuationResult;
 	}
 }

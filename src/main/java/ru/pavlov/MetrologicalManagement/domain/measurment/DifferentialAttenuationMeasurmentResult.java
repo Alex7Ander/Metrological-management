@@ -1,34 +1,23 @@
 package ru.pavlov.MetrologicalManagement.domain.measurment;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
 
 @Entity
-public class DifferentialAttenuationMeasurmentResult implements MeasurmentResult {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+@Table(name = "differential_attenuation_results")
+public class DifferentialAttenuationMeasurmentResult extends MeasurmentResult {
 	
-	private double freq;
 	private double startAttenuation;
 	private double stopAttenuation;
-	private double value;
-	private double error;
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public double getFreq() {
-		return freq;
-	}
-	public void setFreq(double freq) {
-		this.freq = freq;
-	}
+	
+	@ManyToOne
+	@JoinColumn(name = "verification_procedure_id")
+	private VerificationProcedure verificationProcedure;
+	
 	public double getStartAttenuation() {
 		return startAttenuation;
 	}
@@ -41,18 +30,11 @@ public class DifferentialAttenuationMeasurmentResult implements MeasurmentResult
 	public void setStopAttenuation(double stopAttenuation) {
 		this.stopAttenuation = stopAttenuation;
 	}
-	public double getValue() {
-		return value;
+	public VerificationProcedure getVerificationProcedure() {
+		return verificationProcedure;
 	}
-	public void setValue(double value) {
-		this.value = value;
+	public void setVerificationProcedure(VerificationProcedure verificationProcedure) {
+		this.verificationProcedure = verificationProcedure;
 	}
-	public double getError() {
-		return error;
-	}
-	public void setError(double error) {
-		this.error = error;
-	}
-	
-	
+		
 }
