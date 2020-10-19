@@ -17,6 +17,7 @@
             <div class="row">
                 <div>
                     <h4>Информация о поверке</h4>
+                    <input type="hidden" id="procedureHashCode" name="code" th:value="${procedureHashCode}">
                     <table style="width: 100%;">
                         <tr>                           
                             <td>Серийный номер: </td>
@@ -46,7 +47,6 @@
                 <div class="col-md-12">
                     <h5>Таблица 1 - Измеренные значения КСВН</h5>
                     <form id="vswrform" method="post" action="/attenuators/d3-34a/analyze">
-                        <input type="hidden" name="code" th:value="${procedureCode}">
                         <table style="width: 100%;">
                             <tr>
                                 <td rowspan="2"></td>
@@ -54,20 +54,44 @@
                             </tr>
                             <tr>
                                 <td>12,05 ГГЦ</td>
-                                <td>15,00 ГГц</td>
+                                <td>14,70 ГГц</td>
                                 <td>17,44 МГц</td>
                             </tr>
                             <tr>
                                 <td>КСВН входа</td>
-                                <td><input type="text" style="width: 100%;" value="1" name="vswr_in_freq_12.05" id="vswr_in_freq1"></td>
-                                <td><input type="text" style="width: 100%;" value="2" name="vswr_in_freq_15.00" id="vswr_in_freq2"></td>
-                                <td><input type="text" style="width: 100%;" value="3" name="vswr_in_freq_17.44" id="vswr_in_freq3"></td>
+                                <td id="vswr_in1">
+                                    <input type="hidden" value="12.05" id="vswr_in_freq1"><br>
+                                    <input type="text" style="width: 100%;" value="1" id="vswr_in_val1"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err1">
+                                </td>
+                                <td id="vswr_in2">
+                                    <input type="hidden" value="14.70" id="vswr_in_freq2"><br>
+                                    <input type="text" style="width: 100%;" value="2" id="vswr_in_val2"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err2">
+                                </td>
+                                <td id="vswr_in3">
+                                    <input type="hidden" value="17.44" id="vswr_in_freq3"><br>
+                                    <input type="text" style="width: 100%;" value="3" id="vswr_in_val3"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err3">
+                                </td>
                             </tr>
                             <tr>
                                 <td>КСВН выхода</td>
-                                <td><input type="text" style="width: 100%;" value="8" name="vswr_out_freq_12.05" id="vswr_out_freq1"></td>
-                                <td><input type="text" style="width: 100%;" value="7" name="vswr_out_freq_15.00" id="vswr_out_freq2"></td>
-                                <td><input type="text" style="width: 100%;" value="6" name="vswr_out_freq_17.44" id="vswr_out_freq3"></td>
+                                <td id="vswr_out1">
+                                    <input type="hidden" value="12.05" id="vswr_out_freq1"><br>
+                                    <input type="text" style="width: 100%;" value="8" id="vswr_out_val1"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err1">
+                                </td>
+                                <td id="vswr_out2">
+                                    <input type="hidden" value="14.70" id="vswr_out_freq2"><br>
+                                    <input type="text" style="width: 100%;" value="7" id="vswr_out_val2"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err2">
+                                </td>
+                                <td id="vswr_out3">
+                                    <input type="hidden" value="17.44" id="vswr_out_freq3"><br>
+                                    <input type="text" style="width: 100%;" value="9" id="vswr_out_val3"><br>
+                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err3">
+                                </td>
                             </tr>
                         </table>
                     </form>
@@ -78,7 +102,6 @@
                 <div class="col-md-12">
                     <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
                     <form id="initialAttenuationForm" method="post" action="/attenuators/d3-34a/analyze">
-                        <input type="hidden" name="code" th:value="${procedureCode}">
                         <table style="width: 100%;">
                             <tr>
                                 <td rowspan="2"></td>
@@ -86,14 +109,26 @@
                             </tr>
                             <tr>
                                 <td>12,05 ГГЦ</td>
-                                <td>15,00 ГГц</td>
+                                <td>14,70 ГГц</td>
                                 <td>17,44 МГц</td>
                             </tr>
                             <tr>
                                 <td>Нач. осл.</td>
-                                <td><input type="text" style="width: 100%;" name="init_att_freq_12.05"></td>
-                                <td><input type="text" style="width: 100%;" name="init_att_freq_15.00"></td>
-                                <td><input type="text" style="width: 100%;" name="init_att_freq_17.44"></td>
+                                <td id="init_att1">
+                                    <input type="hidden" value="12.05" id="init_att_freq1"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_val1"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_err1"><br>
+                                </td>
+                                <td id="init_att2">
+                                    <input type="hidden" value="14.70" id="init_att_freq2"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_val2"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_err2"><br>
+                                </td>
+                                <td id="init_att3">
+                                    <input type="hidden" value="17.44" id="init_att_freq3"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_val3"><br>
+                                    <input type="text" style="width: 100%;" id="init_att_err3"><br>
+                                </td>
                             </tr>
                         </table>
                     </form>
@@ -104,7 +139,6 @@
                 <div class="col-md-12">
                     <h5>Таблица 3 - Измеренные значения разностного ослабления</h5>
                     <form id="differentialAttenuationForm" method="post" action="/attenuators/d3-34a/analyze">
-                    <input type="hidden" name="code" th:value="${procedureCode}">
                     <table style="width: 100%;">
                         <tr>
                             <td rowspan="2">Ступени</td>
@@ -112,7 +146,7 @@
                         </tr>
                         <tr>
                             <td>12,05 ГГЦ</td>
-                            <td>15,00 ГГц</td>
+                            <td>14,70 ГГц</td>
                             <td>17,44 МГц</td>
                         </tr>
                         <tr>
@@ -172,34 +206,94 @@
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script>
+            class Result{
+                constructor(freq, value, error){
+                    this.freq = freq;
+                    this.value = value;
+                    this.error = error;
+                }
+            }
+
+            class VSWRresult extends Result{
+                constructor(freq, value, error, portNumber){
+                    super(freq, value, error);
+                    this.portNumber = portNumber;
+                }
+            }
+            class DifferentialAttenuationResult extends Result{
+                constructor(freq, value, error, startStep, stopStep){
+                    super(freq, value, error);
+                    this.startStep = startStep;
+                    this.stopStep = stopstep;
+                }
+            }
+
+            class ResultWrapper{
+                constructor(hashCode){
+                    this.hashCode = hashCode;
+                    this.results = new Array();
+                }
+
+                addResult(result){
+                    this.results.push(result);
+                }
+            }
+
             function sendData(){
-                $("#sending_results").empty();
-                sendVSWR();
+                //sendVSWR();
                 sendInitialAttenuation();
-                sendDifferentialAttenuation();
-                /*
-                $.post("/attenuators/d3-34a/getVSWR", $("#vswrform").serialize());
-                $.post("/attenuators/d3-34a/getInitialAttenuation", $("#initialAttenuationForm").serialize());
-                $.post("/attenuators/d3-34a/getDifferentialAttenuation", $("#differentialAttenuationForm").serialize());
-                */
             }
 
             function sendVSWR(){
-                let done = false;
-                $.post("/attenuators/d3-34a/getVSWR", $("#vswrform").serialize(), function(data){
-                    $("#sending_results").append(data);
-                    done = true;
+                let hashCode = $("#procedureHashCode").val();
+                let vswrResultWrapper = new ResultWrapper(hashCode);
+                let elementsIn = $("td[id^='vswr_in']");
+                elementsIn.each(function(){
+                    let freq = $(this).children("[id^='vswr_in_freq']").val();
+                    let value = $(this).children("[id^='vswr_in_val']").val();
+                    let error = $(this).children("[id^='vswr_in_err']").val();
+                    let vswrRes = new VSWRresult(freq, value, error, 1);
+                    vswrResultWrapper.addResult(vswrRes);
                 });
-                return done;
+                let elementsOut = $("td[id^='vswr_out']");
+                elementsOut.each(function(){
+                    let freq = $(this).children("[id^='vswr_out_freq']").val();
+                    let value = $(this).children("[id^='vswr_out_val']").val();
+                    let error = $(this).children("[id^='vswr_out_err']").val();
+                    let vswrRes = new VSWRresult(freq, value, error, 2);
+                    vswrResultWrapper.addResult(vswrRes);
+                });
+                let sData = JSON.stringify(vswrResultWrapper);
+                $.ajax({type: "POST", url: "/attenuators/d3-34a/getVSWR", async: false, contentType: 'application/json', dataType:"json", data: sData,
+                    success: function(respond, status, jqXHR){
+                        alert("Sent");
+                    }, 
+                    error: function(respond, status, jqXHR){
+                        alert('При загрузке произошла ошибка: ' + status);
+                    }
+                });
             }
 
             function sendInitialAttenuation(){
-                let done = false;
-                $.post("/attenuators/d3-34a/getInitialAttenuation", $("#initialAttenuationForm").serialize(), function(data){
-                    $("#sending_results").append(data);
-                    done = true;
+                let hashCode = $("#procedureHashCode").val();
+                let initAttResultWrapper = new ResultWrapper(hashCode);
+                let elements = $("td[id^='init_att']");
+                elements.each(function(){
+                    let freq = $(this).children("[id^='init_att_freq']").val();
+                    let value = $(this).children("[id^='init_att_val']").val();
+                    let error = $(this).children("[id^='init_att_err']").val();
+                    let vswrRes = new Result(freq, value, error);
+                    initAttResultWrapper.addResult(vswrRes);
                 });
-                return done;
+                let sData = JSON.stringify(initAttResultWrapper);
+                $.ajax({type: "POST", url: "/attenuators/d3-34a/getInitialAttenuation", async: false, contentType: 'application/json', dataType:"json", data: sData,
+                    success: function(respond, status, jqXHR){
+                        alert("Sent");
+                    }, 
+                    error: function(respond, status, jqXHR){
+                        alert('При загрузке произошла ошибка: ' + status);
+                    }
+                });
             }
 
             function sendDifferentialAttenuation(){

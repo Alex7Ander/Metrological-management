@@ -39,4 +39,12 @@ public abstract class MeasurmentResult {
 	public void setError(double error) {
 		this.error = error;
 	}
+	
+	@Override
+	public String toString() {
+		return "id - " + this.id +
+				" freq - " + this.freq +
+				" value - " + this.value +
+				" error - " + this.error;
+	}
 }

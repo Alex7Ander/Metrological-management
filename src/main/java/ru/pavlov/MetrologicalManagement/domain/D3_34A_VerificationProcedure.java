@@ -18,11 +18,7 @@ public class D3_34A_VerificationProcedure extends VerificationProcedure {
 	
 	@OneToMany(mappedBy = "verificationProcedure")
 	@MapKey(name = "freq")
-	private Map<Double, VSWRMeasurmentResult> vswrInResults;
-	
-	@OneToMany(mappedBy = "verificationProcedure")
-	@MapKey(name = "freq")
-	private Map<Double, VSWRMeasurmentResult> vswrOutResults;
+	private Map<Double, VSWRMeasurmentResult> vswrResults;
 	
 	@OneToMany(mappedBy = "verificationProcedure")
 	@MapKey(name = "freq")
@@ -40,17 +36,11 @@ public class D3_34A_VerificationProcedure extends VerificationProcedure {
 	public void setDevice(D3_34A device) {
 		this.device = device;
 	}
-	public Map<Double, VSWRMeasurmentResult> getVswrInResults() {
-		return vswrInResults;
+	public Map<Double, VSWRMeasurmentResult> getVswrResults() {
+		return vswrResults;
 	}
-	public void setVswrInResults(Map<Double, VSWRMeasurmentResult> vswrInResults) {
-		this.vswrInResults = vswrInResults;
-	}
-	public Map<Double, VSWRMeasurmentResult> getVswrOutResults() {
-		return vswrOutResults;
-	}
-	public void setVswrOutResults(Map<Double, VSWRMeasurmentResult> vswrOutResults) {
-		this.vswrOutResults = vswrOutResults;
+	public void setVswrResults(Map<Double, VSWRMeasurmentResult> vswrResults) {
+		this.vswrResults = vswrResults;
 	}
 	public Map<Double, InitialAttenuationMeasurmentResult> getInitialAttenuationResults() {
 		return initialAttenuationResults;

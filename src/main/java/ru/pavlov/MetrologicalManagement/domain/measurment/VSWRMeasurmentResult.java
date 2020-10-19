@@ -11,6 +11,8 @@ import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
 @Table(name = "vswr_results")
 public class VSWRMeasurmentResult extends MeasurmentResult{
 	
+	private int portNumber;
+	
 	@ManyToOne
 	@JoinColumn(name = "verification_procedure_id")
 	private VerificationProcedure verificationProcedure;
@@ -20,5 +22,16 @@ public class VSWRMeasurmentResult extends MeasurmentResult{
 	}
 	public void setVerificationProcedure(VerificationProcedure verificationProcedure) {
 		this.verificationProcedure = verificationProcedure;
+	}
+	public int getPortNumber() {
+		return portNumber;
+	}
+	public void setPortNumber(int portNumber) {
+		this.portNumber = portNumber;
+	}
+	@Override
+	public String toString() {
+		String superString = super.toString();
+		return superString + " portNumber - " +this.portNumber;
 	}
 }
