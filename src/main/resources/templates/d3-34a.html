@@ -15,13 +15,13 @@
 		<div class="container-md">
             <h2>Д3-34А</h2>
             <div class="row">
-                <div>
+                <div class="col-md-6">
                     <h4>Информация о поверке</h4>
                     <input type="hidden" id="procedureHashCode" name="code" th:value="${procedureHashCode}">
                     <table style="width: 100%;">
                         <tr>                           
                             <td>Серийный номер: </td>
-                            <td><input type="text" id="serial_number" value=""></td>
+                            <td><input type="text" id="serial_number" value="" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Дата поверки: </td>
@@ -29,79 +29,88 @@
                         </tr>
                         <tr>
                             <td>Температура: </td>
-                            <td><input type="text" id="temperature" value=""></td>
+                            <td><input type="text" id="temperature" value="" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Влажность воздуха: </td>
-                            <td><input type="text" id="humidity" value=""></td>
+                            <td><input type="text" id="humidity" value="" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Атмосферное давление: </td>
-                            <td><input type="text" id="preasure" value=""></td>
+                            <td><input type="text" id="preasure" value="" style="width: 100%;"></td>
                         </tr>
                     </table>
+                    <p><input type="checkbox" id="errorRadio" onclick="hideErrorFields();"> Не вносить значения погрешности измерений </p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Справка о типе поверяемого СИ</h4>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <h5>Таблица 1 - Измеренные значения КСВН</h5>
-                    <form id="vswrform" method="post" action="/attenuators/d3-34a/analyze">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td rowspan="2"></td>
-                                <td colspan="4">Частоты</td>
-                            </tr>
-                            <tr>
-                                <td>12,05 ГГЦ</td>
-                                <td>14,70 ГГц</td>
-                                <td>17,44 МГц</td>
-                            </tr>
-                            <tr>
-                                <td>КСВН входа</td>
-                                <td id="vswr_in1">
-                                    <input type="hidden" value="12.05" id="vswr_in_freq1"><br>
-                                    <input type="text" style="width: 100%;" value="1" id="vswr_in_val1"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err1">
-                                </td>
-                                <td id="vswr_in2">
-                                    <input type="hidden" value="14.70" id="vswr_in_freq2"><br>
-                                    <input type="text" style="width: 100%;" value="2" id="vswr_in_val2"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err2">
-                                </td>
-                                <td id="vswr_in3">
-                                    <input type="hidden" value="17.44" id="vswr_in_freq3"><br>
-                                    <input type="text" style="width: 100%;" value="3" id="vswr_in_val3"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_in_err3">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>КСВН выхода</td>
-                                <td id="vswr_out1">
-                                    <input type="hidden" value="12.05" id="vswr_out_freq1"><br>
-                                    <input type="text" style="width: 100%;" value="8" id="vswr_out_val1"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err1">
-                                </td>
-                                <td id="vswr_out2">
-                                    <input type="hidden" value="14.70" id="vswr_out_freq2"><br>
-                                    <input type="text" style="width: 100%;" value="7" id="vswr_out_val2"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err2">
-                                </td>
-                                <td id="vswr_out3">
-                                    <input type="hidden" value="17.44" id="vswr_out_freq3"><br>
-                                    <input type="text" style="width: 100%;" value="9" id="vswr_out_val3"><br>
-                                    <input type="text" style="width: 100%;" value="0" id="vswr_out_err3">
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-md-12">
-                    <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
-                    <form id="initialAttenuationForm" method="post" action="/attenuators/d3-34a/analyze">
+                <div class="col-md-6">                   
+                    <table style="width: 100%;">
+                        <tr>
+                            <td rowspan="2"></td>
+                            <td colspan="4">Частоты</td>
+                        </tr>
+                        <tr>
+                            <td>12,05 ГГЦ</td>
+                            <td>14,70 ГГц</td>
+                            <td>17,44 МГц</td>
+                        </tr>
+                        <tr>
+                            <td>КСВН входа</td>
+                            <td id="vswr_in1">
+                                <input type="hidden" value="12.05" id="vswr_in_freq1"><br>
+                                <input type="text" style="width: 100%;" value="1" id="vswr_in_val1"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_in_err1">
+                            </td>
+                            <td id="vswr_in2">
+                                <input type="hidden" value="14.70" id="vswr_in_freq2"><br>
+                                <input type="text" style="width: 100%;" value="2" id="vswr_in_val2"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_in_err2">
+                            </td>
+                            <td id="vswr_in3">
+                                <input type="hidden" value="17.44" id="vswr_in_freq3"><br>
+                                <input type="text" style="width: 100%;" value="3" id="vswr_in_val3"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_in_err3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>КСВН выхода</td>
+                            <td id="vswr_out1">
+                                <input type="hidden" value="12.05" id="vswr_out_freq1"><br>
+                                <input type="text" style="width: 100%;" value="8" id="vswr_out_val1"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_out_err1">
+                            </td>
+                            <td id="vswr_out2">
+                                <input type="hidden" value="14.70" id="vswr_out_freq2"><br>
+                                <input type="text" style="width: 100%;" value="7" id="vswr_out_val2"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_out_err2">
+                            </td>
+                            <td id="vswr_out3">
+                                <input type="hidden" value="17.44" id="vswr_out_freq3"><br>
+                                <input type="text" style="width: 100%;" value="9" id="vswr_out_val3"><br>
+                                <input type="text" style="width: 100%;" value="0" id="vswr_out_err3">
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="button" value="Проверить КСВН" onclick="sendVSWR();">
+                    <div id="vswrAnswer">
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+
                         <table style="width: 100%;">
                             <tr>
                                 <td rowspan="2"></td>
@@ -131,7 +140,10 @@
                                 </td>
                             </tr>
                         </table>
-                    </form>
+                        <input type="button" value="Проверить начальное ослабление" onclick="sendInitialAttenuation();">
+                        <div id="initialAttAnswer">
+
+                        </div>
                 </div>
             </div>
 
@@ -149,57 +161,174 @@
                             <td>14,70 ГГц</td>
                             <td>17,44 МГц</td>
                         </tr>
-                        <tr>
-                            <td>0-10</td>
-                            <td><input type="text" style="width: 100%;" name="0-10_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-10_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-10_freq_17.44"></td>
+                        <tr id="dif_att_group1">
+                            <td id="steps1">
+                                0-10
+                                <input type="hidden" id="startAtt1" value=0>
+                                <input type="hidden" id="stopAtt1" value=10>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-20</td>
-                            <td><input type="text" style="width: 100%;" name="0-20_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-20_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-20_freq_17.44"></td>
+                        <tr id="dif_att_group2">
+                            <td id="steps2">
+                                0-20
+                                <input type="hidden" id="startAtt2" value=0>
+                                <input type="hidden" id="stopAtt2" value=20>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-30</td>
-                            <td><input type="text" style="width: 100%;" name="0-30_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-30_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-30_freq_17.44"></td>
+                        <tr id="dif_att_group3">
+                            <input type="hidden" id="startAtt3" value=0>
+                            <input type="hidden" id="stopAtt3" value=30>
+                            <td id="steps3">
+                                0-30
+                                <input type="hidden" id="startAtt3" value=0>
+                                <input type="hidden" id="stopAtt3" value=30>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-40</td>
-                            <td><input type="text" style="width: 100%;" name="0-40_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-40_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-40_freq_17.44"></td>
+                        <tr id="dif_att_group4">
+                            <input type="hidden" id="startAtt4" value=0>
+                            <input type="hidden" id="stopAtt4" value=40>
+                            <td id="steps4">
+                                0-40
+                                <input type="hidden" id="startAtt4" value=0>
+                                <input type="hidden" id="stopAtt4" value=40>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-50</td>
-                            <td><input type="text" style="width: 100%;" name="0-50_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-50_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-50_freq_17.44"></td>
+                        <tr id="dif_att_group5">
+                            <td id="steps5">
+                                0-50
+                                <input type="hidden" id="startAtt5" value=0>
+                                <input type="hidden" id="stopAtt5" value=50>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-60</td>
-                            <td><input type="text" style="width: 100%;" name="0-60_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-60_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-60_freq_17.44"></td>
+                        <tr id="dif_att_group6">
+                            <td id="steps6">
+                                0-60
+                                <input type="hidden" id="startAtt6" value=0>
+                                <input type="hidden" id="stopAtt6" value=60>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>0-70</td>
-                            <td><input type="text" style="width: 100%;" name="0-70_freq_12.05"></td>
-                            <td><input type="text" style="width: 100%;" name="0-70_freq_15.00"></td>
-                            <td><input type="text" style="width: 100%;" name="0-70_freq_17.44"></td>
+                        <tr id="dif_att_group7">
+                            <td id="steps7">
+                                0-70
+                                <input type="hidden" id="startAtt7" value=0>
+                                <input type="hidden" id="stopAtt7" value=70>
+                            </td>
+                            <td id="dif_att1">
+                                <input type="hidden" value="12.05" id="dif_att_freq1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val1"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err1"><br>
+                            </td>
+                            <td id="dif_att2">
+                                <input type="hidden" value="14.70" id="dif_att_freq2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val2"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err2"><br>
+                            </td>
+                            <td id="dif_att3">
+                                <input type="hidden" value="17.44" id="dif_att_freq3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_val3"><br>
+                                <input type="text" style="width: 100%;" id="dif_att_err3"><br>
+                            </td>
                         </tr>
                     </table>
                 </form>
-                <input type="button" value="Анализировать" onclick="sendData();">
-            </div>
+                <input type="button" value="Проверить разностное ослабление" onclick="sendDifferentialAttenuation();">
+                <div id="difAttAnswer">
+                    
+                </div>
 
-            <div class="row" id="sending_results">
-
-            </div>
-            
+                <input type="button" value="Анализировать" onclick="sendData();"><br>
+                <input type="button" value="Сохранить в БД" onclick="saveData();">
+            </div>           
 		</div>
 
 		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -213,7 +342,6 @@
                     this.error = error;
                 }
             }
-
             class VSWRresult extends Result{
                 constructor(freq, value, error, portNumber){
                     super(freq, value, error);
@@ -221,10 +349,10 @@
                 }
             }
             class DifferentialAttenuationResult extends Result{
-                constructor(freq, value, error, startStep, stopStep){
+                constructor(freq, value, error, startAttenuation, stopAttenuation){
                     super(freq, value, error);
-                    this.startStep = startStep;
-                    this.stopStep = stopstep;
+                    this.startAttenuation = startAttenuation;
+                    this.stopAttenuation = stopAttenuation;
                 }
             }
 
@@ -239,9 +367,19 @@
                 }
             }
 
+            function hideErrorFields(){
+                if($("#errorRadio").prop("checked")){
+                    $("[id*='_err']").hide();
+                }
+                else{
+                    $("[id*='_err']").show();
+                }
+            }
+
             function sendData(){
                 //sendVSWR();
-                sendInitialAttenuation();
+                //sendInitialAttenuation();
+                sendDifferentialAttenuation();
             }
 
             function sendVSWR(){
@@ -264,9 +402,10 @@
                     vswrResultWrapper.addResult(vswrRes);
                 });
                 let sData = JSON.stringify(vswrResultWrapper);
-                $.ajax({type: "POST", url: "/attenuators/d3-34a/getVSWR", async: false, contentType: 'application/json', dataType:"json", data: sData,
+                $.ajax({type: "POST", url: "/attenuators/d3-34a/getVSWR", async: false, contentType: 'application/json', dataType:"html", data: sData,
                     success: function(respond, status, jqXHR){
-                        alert("Sent");
+                        $("#vswrAnswer").empty();
+                        $("#vswrAnswer").append(respond);
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);
@@ -288,7 +427,8 @@
                 let sData = JSON.stringify(initAttResultWrapper);
                 $.ajax({type: "POST", url: "/attenuators/d3-34a/getInitialAttenuation", async: false, contentType: 'application/json', dataType:"json", data: sData,
                     success: function(respond, status, jqXHR){
-                        alert("Sent");
+                        $("#initialAttAnswer").empty();
+                        $("#initialAttAnswer").append(respond);
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);
@@ -297,12 +437,35 @@
             }
 
             function sendDifferentialAttenuation(){
-                let done = false;
-                $.post("/attenuators/d3-34a/getDifferentialAttenuation", $("#differentialAttenuationForm").serialize(), function(data){
-                    $("#sending_results").append(data);
-                    done = true;
+                let hashCode = $("#procedureHashCode").val();
+                let difAttenuationResultWrapper = new ResultWrapper(hashCode);
+                let elementsGroup = $("tr[id^='dif_att_group']");
+                elementsGroup.each(function(){
+                    var startAttenuation = $(this).children("td[id^='steps']").children("input[id^='startAtt']").val();
+                    var stopAttenuation = $(this).children("td[id^='steps']").children("input[id^='stopAtt']").val();
+                    let elements = $(this).children("td[id^='dif_att']");
+                    elements.each(function(){
+                        let freq = $(this).children("[id^='dif_att_freq']").val();
+                        let value = $(this).children("[id^='dif_att_val']").val();
+                        let error = $(this).children("[id^='dif_att_err']").val();
+                        let result = new DifferentialAttenuationResult(freq, value, error, startAttenuation, stopAttenuation);
+                        difAttenuationResultWrapper.addResult(result);
+                    });
                 });
-                return done;
+                let sData = JSON.stringify(difAttenuationResultWrapper);
+                $.ajax({type: "POST", url: "/attenuators/d3-34a/getDifferentialAttenuation", async: false, contentType: 'application/json', dataType:"json", data: sData,
+                    success: function(respond, status, jqXHR){
+                        $("#difAttAnswer").empty();
+                        $("#difAttAnswer").append(respond);
+                    }, 
+                    error: function(respond, status, jqXHR){
+                        alert('При загрузке произошла ошибка: ' + status);
+                    }
+                });
+            }
+
+            function saveData(){
+                let hashCode = $("#procedureHashCode").val();
             }
         </script>
 

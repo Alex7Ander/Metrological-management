@@ -14,6 +14,7 @@ public abstract class MeasurmentResult {
 	private double freq;
 	private double value;
 	private double error;
+	private String verificationStatus;
 	
 	public long getId() {
 		return id;
@@ -46,5 +47,11 @@ public abstract class MeasurmentResult {
 				" freq - " + this.freq +
 				" value - " + this.value +
 				" error - " + this.error;
+	}
+	public String getVerificationStatus() {
+		return verificationStatus;
+	}
+	public void setVerificationStatus(String verificationStatus) {
+		this.verificationStatus = verificationStatus;
 	}
 }

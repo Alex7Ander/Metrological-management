@@ -36,5 +36,9 @@ public class DifferentialAttenuationMeasurmentResult extends MeasurmentResult {
 	public void setVerificationProcedure(VerificationProcedure verificationProcedure) {
 		this.verificationProcedure = verificationProcedure;
 	}
-		
+	@Override
+	public String toString() {
+		String superString = super.toString();
+		return superString + " startAttenuation - " + this.startAttenuation + " stopAttenuation - " + this.stopAttenuation;
+	}	
 }
