@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
+import ru.pavlov.MetrologicalManagement.domain.verifications.VerificationProcedure;
 import ru.pavlov.MetrologicalManagement.repos.VerificationProcedureRepo;
 
 @Controller
@@ -24,7 +25,14 @@ public class MainController {
 	public String showResults(Model model) {
 		List<VerificationProcedure> procedures = verificationProcedureRepo.findAll();
 		model.addAttribute("procedures", procedures);
-		return "verificationProcedure";
+		return "verificationProcedures";
+	}
+	
+	@GetMapping("/verificationProcedure/show")
+	public String showVerificationProcedure(@RequestParam long id, Model model) {
+		VerificationProcedure procedure = verificationProcedureRepo.findById(id);
+		model.addAttribute("procedure", procedure);
+		return "verificationProcedureResults";
 	}
 	
 }

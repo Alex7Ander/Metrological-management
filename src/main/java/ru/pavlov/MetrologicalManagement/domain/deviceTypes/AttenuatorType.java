@@ -1,26 +1,13 @@
-package ru.pavlov.MetrologicalManagement.domain;
+package ru.pavlov.MetrologicalManagement.domain.deviceTypes;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "attenuator_types")
-public class AttenuatorType {
+public class AttenuatorType extends DeviceType {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private long id;
-	
-	private String name;
-	private String gosNumber;
-	private String standart;
-	private String verificationSchema;
 	private String waveguide;
-	private String link;
-	
 	private double startFreq;
 	private double stopFreq;
 	private double initialAttenuation;
@@ -28,30 +15,6 @@ public class AttenuatorType {
 	private double stopAttenuation;
 	private double vswrLimit;
 	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getGosNumber() {
-		return gosNumber;
-	}
-	public void setGosNumber(String gosNumber) {
-		this.gosNumber = gosNumber;
-	}
-	public String getStandart() {
-		return standart;
-	}
-	public void setStandart(String standart) {
-		this.standart = standart;
-	}
 	public String getWaveguide() {
 		return waveguide;
 	}
@@ -87,18 +50,6 @@ public class AttenuatorType {
 	}
 	public void setStopAttenuation(double stopAttenuation) {
 		this.stopAttenuation = stopAttenuation;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
-	}
-	public String getVerificationSchema() {
-		return verificationSchema;
-	}
-	public void setVerificationSchema(String verificationSchema) {
-		this.verificationSchema = verificationSchema;
 	}
 	public double getVswrLimit() {
 		return vswrLimit;

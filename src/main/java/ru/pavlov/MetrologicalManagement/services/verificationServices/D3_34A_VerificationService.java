@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
-import ru.pavlov.MetrologicalManagement.domain.D3_34A_VerificationProcedure;
 import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.InitialAttenuationMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.VSWRMeasurmentResult;
+import ru.pavlov.MetrologicalManagement.domain.verifications.D3_34A_VerificationProcedure;
 import ru.pavlov.MetrologicalManagement.exceptions.FrequencyOutOfRangeException;
 
 @Service
@@ -28,6 +28,9 @@ public class D3_34A_VerificationService {
 		this.verificationProcedure = verificationProcedure;
 	}
 	
+	/*
+	 * VSWR
+	 */
 	public String verificateVswr() {
 		List<Double> errorFreqsForVswrIn = new ArrayList<>();
 		List<Double> errorFreqsForVswrOut = new ArrayList<>();
@@ -55,11 +58,11 @@ public class D3_34A_VerificationService {
 					errorFreqsForVswrOut.add(freq);
 					continue;
 				}
+				currentRes.setVerificationStatus("Годен");
 			}
 			catch(FrequencyOutOfRangeException fExp) {
 				currentRes.setVerificationStatus(fExp.getMessage());
-			}
-			currentRes.setVerificationStatus("Годен");
+			}			
 		}
 		
 		String answer = null;
@@ -103,54 +106,119 @@ public class D3_34A_VerificationService {
 		for(int i = 0; i<errorFreqs.size(); i++) {
 			double errorFreq = errorFreqs.get(i);
 			strBuilder.append(errorFreq + " ГГц");
-			if(i < errorFreqs.size()-1) {
-				strBuilder.append(", ");
-			}
+			if(i < errorFreqs.size()-1) strBuilder.append(", ");
 		}
 		strBuilder.append(" больше нормы.\n");
 		return strBuilder.toString();
 	}
-	
-	public void verificateInitialAttenuation(Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults) {
+
+	/*
+	 * Initial attenuation
+	 */
+	public String verificateInitialAttenuation() {
+		List<Double> errorFreqs = new ArrayList<>();
+		Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults = this.verificationProcedure.getInitialAttenuationResults();
 		for(double freq : initialAttenuationResults.keySet()) {
 			InitialAttenuationMeasurmentResult currentRes = initialAttenuationResults.get(freq);
-			if(freq < 12.05 || freq > 17.44) {
-				continue;
-			}
-			if(currentRes.getValue() > initialAttLimitValue) {
-				currentRes.setVerificationStatus("Не годен");
-			}
-			else {
+			try {
+				if(!this.verificateSingleInitialAttenuationValue(freq, currentRes.getValue())) {
+					currentRes.setVerificationStatus("Не годен");
+					errorFreqs.add(freq);
+					continue;
+				}
 				currentRes.setVerificationStatus("Годен");
 			}
+			catch(FrequencyOutOfRangeException fExp) {
+				currentRes.setVerificationStatus(fExp.getMessage());
+			}			
 		}
+		
+		String answer = null;
+		if(errorFreqs.isEmpty()) {
+			answer = "Начальное ослабление в рабочем диапазоне частот не более " + this.initialAttLimitValue + " дБ";
+		}
+		else {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Начальное ослабление на частотах ");
+			for (int i = 0; i < errorFreqs.size(); i++) {
+				strBuilder.append(errorFreqs.get(i));
+				if(i < errorFreqs.size() - 1) strBuilder.append(", ");
+			}
+			strBuilder.append(" выше нормы");
+			answer = strBuilder.toString();
+		}		
+		return answer;
 	}
 	
-	public void verificateDifferentialAttenuation(Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult) {
+	private boolean verificateSingleInitialAttenuationValue(double freq, double value) throws FrequencyOutOfRangeException {
+		if(freq < 12.05 || freq > 17.44) {
+			throw new FrequencyOutOfRangeException(freq, "Прибор Д3-34А работает в диапазоне от 12,05 до 17,44 ГГц");
+		}
+		if(value < initialAttLimitValue) {
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Differential attenuation
+	 */	
+	public String verificateDifferentialAttenuation() {
+		List<Double> errorFreqs = new ArrayList<>();
+		Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult = this.verificationProcedure.getDifferentialAttenuationResult();
 		for(double freq : differentialAttenuationResult.keySet()) {
 			DifferentialAttenuationMeasurmentResult currentRes = differentialAttenuationResult.get(freq);
-			if(freq < 12.05 || freq > 17.44) {
-				currentRes.setVerificationStatus("Частота вне рабочего диапазона");
-				continue;
-			}
-			
-			double attenuationAbsolutValue = currentRes.getStopAttenuation() - currentRes.getStartAttenuation();
-			double limitValue = 0;
-			if(attenuationAbsolutValue < 50) {
-				limitValue = 0.01 + 0.005*attenuationAbsolutValue;
-			}
-			else {
-				limitValue = 0.26 + 0.04*(attenuationAbsolutValue-50);
-			}
-			
-			double realAttenuationValue = attenuationAbsolutValue - currentRes.getValue();
-			if(realAttenuationValue > limitValue || realAttenuationValue < (-1)*limitValue) {
-				currentRes.setVerificationStatus("Не годен");
-			}
-			else {
+			try {
+				if(!verificateSingleDifferentialAttenuationValue(freq, 
+																	currentRes.getValue(), 
+																	currentRes.getStartAttenuation(), 
+																	currentRes.getStopAttenuation())) {
+					currentRes.setVerificationStatus("Не годен");
+					errorFreqs.add(freq);
+					continue;
+				}
 				currentRes.setVerificationStatus("Годен");
 			}
+			catch(FrequencyOutOfRangeException fExp) {
+				currentRes.setVerificationStatus(fExp.getMessage());
+			}
 		}
+		
+		String answer = null;
+		if(errorFreqs.isEmpty()) {
+			answer = "Разностное ослабление в рабочем диапазоне частот удовлетворяет заданным на данный тип нормам";
+		}
+		else {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Разностное ослабление на частотах ");
+			for (int i = 0; i < errorFreqs.size(); i++) {
+				strBuilder.append(errorFreqs.get(i));
+				if(i < errorFreqs.size() - 1) strBuilder.append(", ");
+			}
+			strBuilder.append(" за допуском");
+			answer = strBuilder.toString();
+		}		
+		return answer;
+	}
+	
+	private boolean verificateSingleDifferentialAttenuationValue(double freq, double value, double startAtt, double stopAtt) throws FrequencyOutOfRangeException {
+		if(freq < 12.05 || freq > 17.44) {
+			throw new FrequencyOutOfRangeException(freq, "Прибор Д3-34А работает в диапазоне от 12,05 до 17,44 ГГц");
+		}
+		double attenuationAbsolutValue = stopAtt - startAtt;
+		double limitValue = 0;
+		if(attenuationAbsolutValue < 50) {
+			limitValue = 0.01 + 0.005*attenuationAbsolutValue;
+		}
+		else {
+			limitValue = 0.26 + 0.04*(attenuationAbsolutValue-50);
+		}
+		
+		double realAttenuationValue = attenuationAbsolutValue - value;
+		if(realAttenuationValue > limitValue || realAttenuationValue < (-1)*limitValue) {
+			return false;
+		}
+		return true;
 	}
 	
 }

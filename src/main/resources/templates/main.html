@@ -10,7 +10,7 @@
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Аттенюаторы</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" th:href="@{/attenuators/typeslist}" href="../templates/attenuators/attenuatorTypesList.html">Список типов аттенюаторов</a>
+					<a class="dropdown-item" th:href="@{/attenuators/typeslist}" href="../templates/attenuatorTypesList.html">Список типов аттенюаторов</a>
 					<div class="dropdown-divider"></div>
 				  	<a class="dropdown-item" th:href="@{/attenuators/d1-13}" href="../templates/attenuators/d1-13.html">Д1-13</a>
 					<a class="dropdown-item" th:href="@{/attenuators/d1-13a}" href="../templates/attenuators/d1-13a.html">Д1-13А</a>
@@ -18,6 +18,14 @@
 				  	<a class="dropdown-item" th:href="@{/attenuators/d3-34a}" href="../templates/attenuators/d3-34a.html">Д3-34А</a>    
 				</div>
 			</li>
+			<div class="row">
+				<div class="col-md-3">
+					<a th:href="@{/attenuators/typeslist}" href="../templates/attenuatorTypesList.html">Список типов аттенюаторов</a>
+					<a th:href="@{/verificationProcedures}" href="../templates/verificationProcedures.html">Проведенные поверки</a>
+				</div>
+				<div class="col-md-6">
+				</div>
+			</div>
 		</div>
 		<a th:href="@{/verificationProcedures}">
 		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>

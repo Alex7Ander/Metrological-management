@@ -1,4 +1,4 @@
-package ru.pavlov.MetrologicalManagement.domain;
+package ru.pavlov.MetrologicalManagement.domain.users;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

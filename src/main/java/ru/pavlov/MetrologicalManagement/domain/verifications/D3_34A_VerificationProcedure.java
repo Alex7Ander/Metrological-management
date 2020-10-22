@@ -1,11 +1,10 @@
-package ru.pavlov.MetrologicalManagement.domain;
+package ru.pavlov.MetrologicalManagement.domain.verifications;
 
 import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
@@ -32,14 +31,6 @@ public class D3_34A_VerificationProcedure extends VerificationProcedure {
 	@MapKey(name = "freq")
 	private Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult;
 	
-	@OneToOne
-	private D3_34A device;	
-	public D3_34A getDevice() {
-		return device;
-	}
-	public void setDevice(D3_34A device) {
-		this.device = device;
-	}
 	public Map<Double, VSWRMeasurmentResult> getVswrInResults() {
 		return vswrInResults;
 	}

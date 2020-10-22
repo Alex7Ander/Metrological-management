@@ -1,4 +1,4 @@
-package ru.pavlov.MetrologicalManagement.domain;
+package ru.pavlov.MetrologicalManagement.domain.verifications;
 
 import java.util.Date;
 
@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import ru.pavlov.MetrologicalManagement.domain.devices.Device;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -19,6 +23,10 @@ public abstract class VerificationProcedure {
 	private double temperature;
 	private double humidity;
 	private double preasure;
+	
+	@ManyToOne
+	@JoinColumn(name="device_id")
+	private Device device;
 	
 	public long getId() {
 		return id;
@@ -49,5 +57,11 @@ public abstract class VerificationProcedure {
 	}
 	public void setPreasure(double preasure) {
 		this.preasure = preasure;
+	}
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
 	}
 }

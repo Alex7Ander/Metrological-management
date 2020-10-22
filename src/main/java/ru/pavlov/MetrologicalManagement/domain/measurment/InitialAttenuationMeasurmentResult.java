@@ -5,7 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import ru.pavlov.MetrologicalManagement.domain.VerificationProcedure;
+import ru.pavlov.MetrologicalManagement.domain.verifications.VerificationProcedure;
 
 @Entity
 @Table(name = "init_attenuation_results")
