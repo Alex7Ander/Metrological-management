@@ -1,5 +1,9 @@
 package ru.pavlov.MetrologicalManagement.controllers;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.pavlov.MetrologicalManagement.domain.deviceTypes.AttenuatorType;
 import ru.pavlov.MetrologicalManagement.domain.deviceTypes.DeviceType;
@@ -35,6 +38,10 @@ import ru.pavlov.MetrologicalManagement.services.verificationServices.D3_34A_Ver
 @RequestMapping("/attenuators/d3-34a")
 public class D3_34A_controller {
 
+	private String datePattern = "yyyy-MM-dd";
+	private DateFormat dateFormat = new SimpleDateFormat(datePattern);
+	
+	
 	@Autowired
 	private AttenuatorTypeRepo attenuatorTypeRepo;
 	
@@ -56,7 +63,6 @@ public class D3_34A_controller {
 	public String d3_34a_Page(Model model){
 		System.out.println("D3-34A page requested");
 		DeviceType d3_34a_type = deviceTypeRepo.findByName("Д3-34А");
-		//AttenuatorType d3_34a_type = attenuatorTypeRepo.findByName("Д3-34А");
 		model.addAttribute("type", d3_34a_type);
 		
 		D3_34A_VerificationProcedure currentProcedure = new D3_34A_VerificationProcedure();
@@ -66,14 +72,15 @@ public class D3_34A_controller {
 		return "d3-34a";
 	}
 	
-	@PostMapping("/getMainData")
+	@RequestMapping(value="/getMainData", method=RequestMethod.POST)
 	public String getMainData(@RequestParam int procedureHashCode,
-								@RequestParam String serialNumber, 
-								@RequestParam String date, 
+								@RequestParam String serialNumber,
+								@RequestParam String date,
 								@RequestParam double temperature, 
 								@RequestParam double humidity,
-								@RequestParam double preasure) {
-		
+								@RequestParam double preasure, Model model) {
+		System.out.println("Getting main info for D3-34A attenuator");
+		StringBuilder answer = new StringBuilder();
 		AttenuatorType d3_34a_type = attenuatorTypeRepo.findByName("Д3-34А");
 		Device currentDevice = deviceRepo.findByTypeAndSerialNumber(d3_34a_type, serialNumber);
 		if(currentDevice == null) {
@@ -81,14 +88,25 @@ public class D3_34A_controller {
 			currentDevice.setSerialNumber(serialNumber);
 			currentDevice.setType(d3_34a_type);
 			deviceRepo.save(currentDevice);
+			answer.append("Аттенюатор Д3-34А с серийным номером " + serialNumber + " добавлен в БД\n");
 		}
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(procedureHashCode);
+		Date verificationDate = null;
+		try {
+			verificationDate = dateFormat.parse(date);
+		} catch (ParseException e) {
+			verificationDate = new Date();
+			e.printStackTrace();
+		}
 		currentProcedure.setDevice(currentDevice);
-		currentProcedure.setDate(null);
+		currentProcedure.setDate(verificationDate);
 		currentProcedure.setTemperature(temperature);
 		currentProcedure.setHumidity(humidity);
 		currentProcedure.setPreasure(preasure);
-		return "";
+		
+		answer.append("Процедура поверки создана");
+		model.addAttribute("answer", answer.toString());
+		return "lineAnswer";
 	}
 	
 	@RequestMapping(value="/getVSWR", method=RequestMethod.POST, consumes="application/json", produces="application/json")
@@ -145,7 +163,6 @@ public class D3_34A_controller {
 	}
 	
 	@RequestMapping(value="/getDifferentialAttenuation", method=RequestMethod.POST, consumes="application/json", produces="application/json")
-	@ResponseBody
 	public String getDifferentialAttenuation(@RequestBody DifferentialAttenuationMeasurmentResultWrapper results, Model model) {
 		int currentProcedureHashCode = results.getHashCode();		
 		System.out.println("currentProcedureHashCode = " + currentProcedureHashCode);
@@ -159,7 +176,7 @@ public class D3_34A_controller {
 			}
 			currentProcedure.setDifferentialAttenuationResult(differentialAttenuationResult);
 			verificationService.setVerificationProcedure(currentProcedure);
-			answer = verificationService.verificateInitialAttenuation();
+			answer = verificationService.verificateDifferentialAttenuation();
 		}
 		else {
 			answer = "Ошибка! Не удалось найти объект текущей процедуры поверки. Обратитесь к разработчикам.";

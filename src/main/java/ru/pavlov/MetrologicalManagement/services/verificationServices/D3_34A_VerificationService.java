@@ -170,9 +170,9 @@ public class D3_34A_VerificationService {
 			DifferentialAttenuationMeasurmentResult currentRes = differentialAttenuationResult.get(freq);
 			try {
 				if(!verificateSingleDifferentialAttenuationValue(freq, 
-																	currentRes.getValue(), 
-																	currentRes.getStartAttenuation(), 
-																	currentRes.getStopAttenuation())) {
+																currentRes.getValue(), 
+																currentRes.getStartAttenuation(), 
+																currentRes.getStopAttenuation())) {
 					currentRes.setVerificationStatus("Не годен");
 					errorFreqs.add(freq);
 					continue;
