@@ -30,15 +30,15 @@
                         </tr>
                         <tr>
                             <td>Температура: </td>
-                            <td><input type="text" id="temperature" value="" style="width: 100%;"></td>
+                            <td><input type="text" id="temperature" value="21" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Влажность воздуха: </td>
-                            <td><input type="text" id="humidity" value="" style="width: 100%;"></td>
+                            <td><input type="text" id="humidity" value="51" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Атмосферное давление: </td>
-                            <td><input type="text" id="preasure" value="" style="width: 100%;"></td>
+                            <td><input type="text" id="preasure" value="756" style="width: 100%;"></td>
                         </tr>
                     </table>
                     <input type="button" class="btn btn-secondary" value="Отправить основную информацию" onclick="sendMainData();">
@@ -337,6 +337,8 @@
             </div>  
             <div class="row">
                 <div class="col-md-12">
+                    <div id="savingAnswer">
+                    </div><br>
                     <input type="button" class="btn btn-secondary" value="Анализировать" onclick="sendAllData();">
                     <input type="button" class="btn btn-secondary" value="Сохранить в БД" onclick="saveData();">
                     <input type="button" class="btn btn-secondary" value="Выписать протокол и свидетельство (извещение)" onclick="createDocuments();">
@@ -348,6 +350,12 @@
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script>
+
+            var mainInfoIsSent = false, 
+                vswrIsSent = false, 
+                initAttIsSent = false,
+                difAttIsSent = false;
+
             class Result{
                 constructor(freq, value, error){
                     this.freq = freq;
@@ -393,15 +401,40 @@
                 let mainData = new FormData();
                 mainData.append("procedureHashCode", $("#procedureHashCode").val());       
                 mainData.append("date", $("#date").val());
-                mainData.append("serialNumber", $("#serial_number").val());
-                mainData.append("temperature", $("#temperature").val());
-                mainData.append("humidity", $("#humidity").val());
-                mainData.append("preasure", $("#preasure").val());
+
+                let serial_number = $("#serial_number").val();
+                if(serial_number === ""){
+                    alert("Вы не ввели серийный номер устройства");
+                    return;
+                }
+                mainData.append("serialNumber", serial_number);
+
+                let temperature = parseFloat($("#temperature").val());
+                if(isNaN(temperature)){
+                    alert("Вы ввели некорректное значение температуры");
+                    return;
+                }
+                mainData.append("temperature", temperature);
+
+                let humidity = parseFloat($("#humidity").val());
+                if(isNaN(humidity)){
+                    alert("Вы ввели некорректное значение влажности");
+                    return;
+                }
+                mainData.append("humidity", humidity);
+
+                let preasure = parseFloat($("#preasure").val());
+                if(isNaN(preasure)){
+                    alert("Вы ввели некорректное значение атмосферного давления");
+                    return;
+                }
+                mainData.append("preasure", preasure);
 
                 $.ajax({type: "POST", url: "/attenuators/d3-34a/getMainData", cache: false, dataType: 'html', contentType: false, processData : false, async: false,  data: mainData,
                     success: function(respond, status, jqXHR){
                         $("#mainInfoAnswer").empty();
                         $("#mainInfoAnswer").append(respond);
+                        mainInfoIsSent = true;
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При отправке основной информации произошла ошибка: ' + status);
@@ -433,6 +466,7 @@
                     success: function(respond, status, jqXHR){
                         $("#vswrAnswer").empty();
                         $("#vswrAnswer").append(respond);
+                        vswrIsSent = true;
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);
@@ -456,6 +490,7 @@
                     success: function(respond, status, jqXHR){
                         $("#initialAttAnswer").empty();
                         $("#initialAttAnswer").append(respond);
+                        initAttIsSent = true;
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);
@@ -484,6 +519,7 @@
                     success: function(respond, status, jqXHR){
                         $("#difAttAnswer").empty();
                         $("#difAttAnswer").append(respond);
+                        difAttIsSent = true;
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);
@@ -522,12 +558,29 @@
             }
 
             function saveData(){
+                if(!mainInfoIsSent){
+                    alert("Основная информация о поверке не отправлена");
+                    return;
+                }
+                if(!vswrIsSent){
+                    alert("Результаты измерения КСВН не отправлены");
+                    return;
+                }
+                if(!initAttIsSent){
+                    alert("Результаты измерения начального ослабления не отправлены");
+                    return;
+                }
+                if(!difAttIsSent){
+                    alert("Результаты измерения разностного ослабления не отправлены");
+                    return;
+                }
                 let savingData = new FormData();
                 savingData.append("procedureHashCode", $("#procedureHashCode").val());
-                $.ajax({type: "POST", url: "/attenuators/d3-34a/saveVerificationProcedure", async: false, contentType: 'application/json', dataType:"html", data: savingData,
+
+                $.ajax({type: "POST", url: "/attenuators/d3-34a/saveVerificationProcedure", cache: false, dataType: 'html', contentType: false, processData : false, async: false,  data: savingData,
                     success: function(respond, status, jqXHR){
-                        $("#difAttAnswer").empty();
-                        $("#difAttAnswer").append(respond);
+                        $("#savingAnswer").empty();
+                        $("#savingAnswer").append(respond);
                     }, 
                     error: function(respond, status, jqXHR){
                         alert('При загрузке произошла ошибка: ' + status);

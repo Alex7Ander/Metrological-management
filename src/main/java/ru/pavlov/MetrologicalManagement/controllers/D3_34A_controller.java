@@ -187,13 +187,15 @@ public class D3_34A_controller {
 	}
 	
 	@PostMapping("saveVerificationProcedure")
-	public String saveVerificationProcedure(@RequestParam int procedureHashCode) {
+	public String saveVerificationProcedure(@RequestParam int procedureHashCode, Model model) {
 		System.out.println("Start saving verification procedure of D3-34A (with temp hash code " + procedureHashCode + ")");
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(procedureHashCode);
 		verificationProcedureRepo.save(currentProcedure);
-		System.out.println("id after saving " + currentProcedure.getId());
-		return "";
+		
+		String answer = "Результаты процедуры поверки успешно сохранены (id = "+currentProcedure.getId()+")";
+		System.out.println("id after saving " + currentProcedure.getId());		
+		model.addAttribute("answer", answer);
+		return "lineAnswer";
 	}
 	
-
 }
