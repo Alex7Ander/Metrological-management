@@ -96,9 +96,4 @@ public class AttenuatorsTypeController {
 		return "d1-13";
 	}
 	
-	@GetMapping("d1-13a")
-	public String d1_13a_Page(){
-		return "d1-13a";
-	}
-	
 }

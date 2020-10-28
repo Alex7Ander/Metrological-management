@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title> Д1-13А </title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            td{
+                border: solid 1px rgb(0, 0, 0); 
+                text-align:center;
+            }
+        </style>
+    </head>
+	
+	<body>
+		<div class="container-md">
+            <a th:href="@{/}" href="../templates/main.html">На главную</a>
+            <h2>Д1-13A</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Информация о поверке</h4>
+                    <input type="hidden" id="procedureHashCode" name="code" th:value="${procedureHashCode}">
+                    <table style="width: 100%;">
+                        <tr>                           
+                            <td>Серийный номер: </td>
+                            <td><input type="text" id="serial_number" value="" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>Дата поверки: </td>
+                            <td><input type="date" id="date" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>Температура: </td>
+                            <td><input type="text" id="temperature" value="" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>Влажность воздуха: </td>
+                            <td><input type="text" id="humidity" value="" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>Атмосферное давление: </td>
+                            <td><input type="text" id="preasure" value="" style="width: 100%;"></td>
+                        </tr>
+                    </table>
+                    <input type="button" class="btn btn-secondary" value="Отправить основную информацию" onclick="sendMainData();">
+                    <div id="mainInfoAnswer">
+                    </div>
+                    <p><input type="checkbox" id="errorRadio" onclick="hideErrorFields();"> Не вносить значения погрешности измерений </p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Справка о типе поверяемого СИ</h4>
+                    <p>Номер в гос реестре <span th:text="${type.gosNumber}"></span></p>
+                    <p>Волноводный тракт <span th:text="${type.waveguide}"></span></p>
+                    <p>Частотный диапазон <span th:text="${type.startFreq}"></span> - <span th:text="${type.stopFreq}"></span></p>
+                    <p>Начальное ослабление не более <span th:text="${type.initialAttenuation}"></span> дБ</p>
+                    <p>КСВН входа и выхода не более <span th:text="${type.vswrLimit}"></span></p>                
+                </div>
+            </div>
+            <h4>Результаты поверки</h4>
+            <div class="row">               
+                <div class="col-md-3">
+                    <table id="dif_att_table1" style="width: 100%;">
+                        <tr>
+                            <td>Ступени</td>
+                            <td>55.5 кГц</td>
+                        </tr>
+                        <tr id="dif_att_group1_table1">
+                            <td id="steps1_group1_table1">
+                                0-10
+                                <input type="hidden" id="startAtt_group1_table1" value=0>
+                                <input type="hidden" id="stopAtt_group1_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group1_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group2_table1">
+                            <td id="steps1_group1_table1">
+                                0-20
+                                <input type="hidden" id="startAtt_group1_table1" value=0>
+                                <input type="hidden" id="stopAtt_group1_table1" value=20>
+                            </td>
+                            <td id="dif_att1_group1_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group3_table1">
+                            <td id="steps1_group3_table1">
+                                20-30
+                                <input type="hidden" id="startAtt_group3_table1" value=0>
+                                <input type="hidden" id="stopAtt_group3_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group1_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group4_table1">
+                            <td id="steps1_group4_table1">
+                                20-40
+                                <input type="hidden" id="startAtt_group4_table1" value=0>
+                                <input type="hidden" id="stopAtt_group4_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group4_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group5_table1">
+                            <td id="steps1_group5_table1">
+                                20-50
+                                <input type="hidden" id="startAtt_group5_table1" value=0>
+                                <input type="hidden" id="stopAtt_group5_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group5_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group6_table1">
+                            <td id="steps1_group6_table1">
+                                20-60
+                                <input type="hidden" id="startAtt_group6_table1" value=0>
+                                <input type="hidden" id="stopAtt_group6_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group6_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group7_table1">
+                            <td id="steps1_group7_table1">
+                                20-70
+                                <input type="hidden" id="startAtt_group7_table1" value=0>
+                                <input type="hidden" id="stopAtt_group7_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group7_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group8_table1">
+                            <td id="steps1_group_table1">
+                                70-80
+                                <input type="hidden" id="startAtt_group_table1" value=0>
+                                <input type="hidden" id="stopAtt_group_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group9_table1">
+                            <td id="steps1_group9_table1">
+                                70-90
+                                <input type="hidden" id="startAtt_group9_table1" value=0>
+                                <input type="hidden" id="stopAtt_group9_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group9_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group10_table1">
+                            <td id="steps1_group10_table1">
+                                70-100
+                                <input type="hidden" id="startAtt_group10_table1" value=0>
+                                <input type="hidden" id="stopAtt_group10_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group10_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group11_table1">
+                            <td id="steps1_group11_table1">
+                                70-110
+                                <input type="hidden" id="startAtt_group11_table1" value=0>
+                                <input type="hidden" id="stopAtt_group11_table1" value=10>
+                            </td>
+                            <td id="dif_att1_group11_table1">
+                                <input type="hidden" id="dif_att_freq" value="0.055">
+                                <input type="text" id="dif_att_value" style="width: 100%;">
+                                <input type="text" id="dif_att_error" style="width: 100%;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-9">
+                    <table id="dif_att_table2" style="width: 100%;">
+                        <tr>
+                            <td>Ступени</td>
+                            <td>5 МГц</td>
+                            <td>6,5 МГц</td>
+                            <td>30 МГц</td>
+                        </tr>
+                        <tr id="dif_att_group1">
+                            <td>0-10</td>
+                            <td id="dif_att2">
+                                <input type="text" style="width: 100%;">
+                                <input type="text" style="width: 100%;">
+                            </td>
+                            <td id="dif_att3">
+                                <input type="text" style="width: 100%;">
+                                <input type="text" style="width: 100%;">
+                            </td>
+                            <td id="dif_att4">
+                                <input type="text" style="width: 100%;">
+                                <input type="text" style="width: 100%;">
+                            </td>
+                        </tr>
+                        <tr id="dif_att_group2">
+                            <td>0-20</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group3">
+                            <td>20-30</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group4">
+                            <td>20-40</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group5">
+                            <td>20-50</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group6">
+                            <td>20-60</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group7">
+                            <td>20-70</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group8">
+                            <td>40-80</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group9">
+                            <td>40-90</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group10">
+                            <td>40-100</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr id="dif_att_group11">
+                            <td>40-110</td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"><input type="text" style="width: 100%;"></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="difAttAnswer">
+                    </div>
+                    <input type="button" class="btn btn-secondary" value="Проверить разностное ослабление" onclick="sendDifferentialAttenuation();">
+                </div>
+            </div>
+            
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="savingAnswer">
+                    </div><br>
+                    <input type="button" class="btn btn-secondary" value="Анализировать" onclick="sendAllData();">
+                    <input type="button" class="btn btn-secondary" value="Сохранить в БД" onclick="saveData();">
+                    <input type="button" class="btn btn-secondary" value="Выписать протокол и свидетельство (извещение)" onclick="createDocuments();">
+                </div>
+            </div> 
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        
+        <script th:src="@{/js/MeasurmentResults.js}"	src="../static/js/MeasurmentResults.js"></script>
+        <script th:src="@{/js/d1-13a.js}"	            src="../static/js/d1-13a.js"></script>
+	</body>
+</html>

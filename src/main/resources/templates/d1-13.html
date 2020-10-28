@@ -13,6 +13,8 @@
 	
 	<body>
 		<div class="container-md">
+            <a th:href="@{/}" href="../templates/main.html">На главную</a>
+            <h2>Д1-13</h2>
             <div class="row">
                 <div>
                     <h4>Информация о поверке</h4>
@@ -23,7 +25,7 @@
                         </tr>
                         <tr>
                             <td>Дата поверки: </td>
-                            <td></td>
+                            <td><input type="date" id="date" style="width: 100%;"></td>
                         </tr>
                         <tr>
                             <td>Температура: </td>
@@ -41,82 +43,94 @@
                 </div>
             </div>
             <div class="row">
-                <h4>Результаты поверки</h4>
-                <table style="width: 100%;">
-                    <tr>
-                        <td rowspan="2">Ступени</td>
-                        <td colspan="4">Частоты</td>
-                    </tr>
-                    <tr>
-                        <td>55.5 кГц</td>
-                        <td>5 МГц</td>
-                        <td>6,5 МГц</td>
-                        <td>30 МГц</td>
-                    </tr>
-                    <tr>
-                        <td>0-10</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>0-20</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-30</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-40</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-50</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-60</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-70</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-80</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                    <tr>
-                        <td>20-90</td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                        <td><input type="text" style="width: 100%;"></td>
-                    </tr>
-                </table>
+                <div class="col-md-3">
+                    <h4>Результаты поверки на частоте 55,5 кГц</h4>
+                    <table>
+                        <tr>
+                            <td rowspan="2">Ступени</td>
+                            <td colspan="4">Частоты</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-9">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td rowspan="2">Ступени</td>
+                            <td colspan="4">Частоты</td>
+                        </tr>
+                        <tr>
+                            <td>55.5 кГц</td>
+                            <td>5 МГц</td>
+                            <td>6,5 МГц</td>
+                            <td>30 МГц</td>
+                        </tr>
+                        <tr>
+                            <td>0-10</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>0-20</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-30</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-40</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-50</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-60</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-70</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-80</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td>20-90</td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                            <td><input type="text" style="width: 100%;"></td>
+                        </tr>
+                    </table>
+                </div>
+                
             </div>
 		</div>
 
