@@ -28,7 +28,7 @@ public class D1_13A_controller {
 	@GetMapping
 	public String d1_13a_Page(Model model){
 		System.out.println("D1-13A page requested");
-		DeviceType d1_13a_type = deviceTypeRepo.findByName("Д3-34А");
+		DeviceType d1_13a_type = deviceTypeRepo.findByName("Д1-13А");
 		model.addAttribute("type", d1_13a_type);
 		
 		D1_13A_VerificationProcedure procedure = new D1_13A_VerificationProcedure();

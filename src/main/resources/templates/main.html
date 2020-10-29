@@ -19,11 +19,14 @@
 				</div>
 			</li>
 			<div class="row">
-				<div class="col-md-3">
-					<a th:href="@{/attenuators/typeslist}" href="../templates/attenuatorTypesList.html">Список типов аттенюаторов</a>
-					<a th:href="@{/verificationProcedures}" href="../templates/verificationProcedures.html">Проведенные поверки</a>
+				<div class="col-md-9">
+					<h2>База данных средств измерений и поверок</h2>
+					<a th:href="@{/attenuators/typeslist}" href="../templates/attenuatorTypesList.html">Список типов аттенюаторов</a><br>
+					<a th:href="@{devicesList}" href="../templates/devicesList.html">Список зарегистрированных (поверяемых) средств измерений </a><br>
+					<a th:href="@{/verificationProcedures}" href="../templates/verificationProcedures.html">Проведенные поверки</a><br>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-3">
+					<h2>Справочник</h2>
 				</div>
 			</div>
 		</div>
