@@ -2,6 +2,7 @@ package ru.pavlov.MetrologicalManagement.domain.devices;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Device {
 	private String serialNumber;
 	private String owner;
 	
-	@OneToMany(mappedBy="device", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="device", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<VerificationProcedure> verificationProcedures;
 	
 	@ManyToOne
