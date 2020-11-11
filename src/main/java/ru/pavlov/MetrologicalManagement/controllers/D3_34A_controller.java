@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,16 +25,14 @@ import ru.pavlov.MetrologicalManagement.domain.deviceTypes.DeviceType;
 import ru.pavlov.MetrologicalManagement.domain.devices.Device;
 import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.InitialAttenuationMeasurmentResult;
+import ru.pavlov.MetrologicalManagement.domain.measurment.MeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.VSWRMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.verifications.D3_34A_VerificationProcedure;
 import ru.pavlov.MetrologicalManagement.domain.wrappers.DifferentialAttenuationMeasurmentResultWrapper;
 import ru.pavlov.MetrologicalManagement.domain.wrappers.InitialAttenuationMeasurmentResultWrapper;
 import ru.pavlov.MetrologicalManagement.domain.wrappers.VSWRMeasurmentResultWrapper;
-import ru.pavlov.MetrologicalManagement.repos.AttenuatorTypeRepo;
-import ru.pavlov.MetrologicalManagement.repos.DeviceRepo;
-import ru.pavlov.MetrologicalManagement.repos.DeviceTypeRepo;
-import ru.pavlov.MetrologicalManagement.repos.VerificationProcedureRepo;
 import ru.pavlov.MetrologicalManagement.services.verificationServices.D3_34A_VerificationService;
+import ru.pavlov.MetrologicalManagement.repos.*;
 
 @Controller
 @RequestMapping("/attenuators/d3-34a")
@@ -56,6 +56,15 @@ public class D3_34A_controller {
 	
 	@Autowired
 	private D3_34A_VerificationService verificationService;
+	
+	@Autowired
+	VSWRMeasurmentResultRepo vswrMeasurmentResultRepo;
+	
+	@Autowired
+	InitialAttenuationMeasurmentResultRepo initialAttenuationMeasurmentResultRepo;
+	
+	@Autowired
+	DifferentialAttenuationMeasurmentResultRepo differentialAttenuationMeasurmentResultRepo;
 	
 	private Map<Integer, D3_34A_VerificationProcedure> verificationProcedures = new HashMap<>();
 	
@@ -120,6 +129,7 @@ public class D3_34A_controller {
 			Map<Double,  VSWRMeasurmentResult> vswrOutResults = new LinkedHashMap<>();
 			for(VSWRMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
+				result.setVerificationProcedure(currentProcedure);
 				if(result.getPortNumber() == 1) {
 					vswrInResults.put(result.getFreq(), result);
 				}
@@ -149,6 +159,7 @@ public class D3_34A_controller {
 			Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults = new LinkedHashMap<>();
 			for(InitialAttenuationMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
+				result.setVerificationProcedure(currentProcedure);
 				initialAttenuationResults.put(result.getFreq(), result);
 			}
 			currentProcedure.setInitialAttenuationResults(initialAttenuationResults);
@@ -172,6 +183,7 @@ public class D3_34A_controller {
 			Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult = new LinkedHashMap<>();
 			for(DifferentialAttenuationMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
+				result.setVerificationProcedure(currentProcedure);
 				differentialAttenuationResult.put(result.getFreq(), result);
 			}
 			currentProcedure.setDifferentialAttenuationResult(differentialAttenuationResult);
@@ -190,12 +202,50 @@ public class D3_34A_controller {
 	public String saveVerificationProcedure(@RequestParam int procedureHashCode, Model model) {
 		System.out.println("Start saving verification procedure of D3-34A (with temp hash code " + procedureHashCode + ")");
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(procedureHashCode);
+		
+		System.out.println("Saving procedure object");
 		verificationProcedureRepo.save(currentProcedure);
+		
+		System.out.println("Saving VSWR");
+		for(Double freq : currentProcedure.getVswrInResults().keySet()) {
+			VSWRMeasurmentResult result = currentProcedure.getVswrInResults().get(freq);
+			vswrMeasurmentResultRepo.save(result);
+		}
+		for(Double freq : currentProcedure.getVswrOutResults().keySet()) {
+			VSWRMeasurmentResult result = currentProcedure.getVswrInResults().get(freq);
+			vswrMeasurmentResultRepo.save(result);
+		}
+		
+		System.out.println("Saving initial attenuation");
+		for(Double freq : currentProcedure.getInitialAttenuationResults().keySet()) {
+			InitialAttenuationMeasurmentResult result = currentProcedure.getInitialAttenuationResults().get(freq);
+			initialAttenuationMeasurmentResultRepo.save(result);
+		}
+		
+		System.out.println("Saving differential attenuation");
+		for(Double freq : currentProcedure.getDifferentialAttenuationResult().keySet()) {
+			DifferentialAttenuationMeasurmentResult result = currentProcedure.getDifferentialAttenuationResult().get(freq);
+			differentialAttenuationMeasurmentResultRepo.save(result);
+		}
 		
 		String answer = "Результаты процедуры поверки успешно сохранены (id = "+currentProcedure.getId()+")";
 		System.out.println("id after saving " + currentProcedure.getId());		
 		model.addAttribute("answer", answer);
 		return "lineAnswer";
+	}
+	
+	@GetMapping("showVerificationProcedure")
+	public String showVerificationProcedure(@RequestParam long id, Model model) {
+		D3_34A_VerificationProcedure procedure = (D3_34A_VerificationProcedure)verificationProcedureRepo.findById(id);
+		
+		Map<Double, VSWRMeasurmentResult> vswrInResults = procedure.getVswrInResults();
+		Set<Double> freqs = vswrInResults.keySet();
+		model.addAttribute("freqs", freqs);
+		
+		model.addAttribute("vswrInResults", vswrInResults);
+		model.addAttribute("procedure", procedure);
+		
+		return "d3-34a_verificationProcedureResults";
 	}
 	
 }

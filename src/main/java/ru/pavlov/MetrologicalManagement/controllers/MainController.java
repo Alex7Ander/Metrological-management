@@ -48,8 +48,9 @@ public class MainController {
 	@GetMapping("/verificationProcedure/show")
 	public String showVerificationProcedure(@RequestParam long id, Model model) {
 		VerificationProcedure procedure = verificationProcedureRepo.findById(id);
-		model.addAttribute("procedure", procedure);
-		return "verificationProcedureResults";
+		DeviceType verificatedDeviceType = procedure.getDevice().getType();
+		String redirectLink = "redirect:" + verificatedDeviceType.getLink() + "/showVerificationProcedure?id=" + id;
+		return redirectLink;
 	}
 	
 	@GetMapping("/devicesList")
@@ -75,6 +76,5 @@ public class MainController {
 			if(device != null) deviceRepo.delete(device);
 		}
 		return "redirect:/devicesList";
-	}
-	
+	}	
 }
