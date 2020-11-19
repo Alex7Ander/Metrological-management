@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +24,6 @@ import ru.pavlov.MetrologicalManagement.domain.deviceTypes.DeviceType;
 import ru.pavlov.MetrologicalManagement.domain.devices.Device;
 import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.InitialAttenuationMeasurmentResult;
-import ru.pavlov.MetrologicalManagement.domain.measurment.MeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.measurment.VSWRMeasurmentResult;
 import ru.pavlov.MetrologicalManagement.domain.verifications.D3_34A_VerificationProcedure;
 import ru.pavlov.MetrologicalManagement.domain.wrappers.DifferentialAttenuationMeasurmentResultWrapper;
@@ -212,7 +210,7 @@ public class D3_34A_controller {
 			vswrMeasurmentResultRepo.save(result);
 		}
 		for(Double freq : currentProcedure.getVswrOutResults().keySet()) {
-			VSWRMeasurmentResult result = currentProcedure.getVswrInResults().get(freq);
+			VSWRMeasurmentResult result = currentProcedure.getVswrOutResults().get(freq);
 			vswrMeasurmentResultRepo.save(result);
 		}
 		
@@ -238,7 +236,7 @@ public class D3_34A_controller {
 	public String showVerificationProcedure(@RequestParam long id, Model model) {
 		D3_34A_VerificationProcedure procedure = (D3_34A_VerificationProcedure)verificationProcedureRepo.findById(id);
 		
-		Map<Double, VSWRMeasurmentResult> vswrInResults = procedure.getVswrInResults();
+		Map<Double, VSWRMeasurmentResult> vswrInResults = procedure.getVswrInResults();	
 		Set<Double> freqs = vswrInResults.keySet();
 		model.addAttribute("freqs", freqs);
 		

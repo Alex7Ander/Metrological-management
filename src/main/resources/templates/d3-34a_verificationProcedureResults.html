@@ -13,6 +13,7 @@
 	
 	<body>
         <div class="container-md">
+        	<a th:href="@{/}" href="../templates/main.html">На главную</a>
             <h2 th:text="'Результаты поверки ' + ${procedure.device.type.name} + ' №' + ${procedure.device.serialNumber} + ' от ' + ${procedure.date}"></h2>
             <div class="row">
             	<div class="col-md-6">
@@ -60,19 +61,20 @@
                 <div class="col-md-6">                   
                     <table style="width: 100%;">
                         <tr>
-                            <td rowspan="2"></td>
-                            <td colspan="4">Частоты</td>
+                        	<td>Измеренные значения</td>
+                            <td th:each="freq : ${freqs}" th:text="${freq} + ' ГГц'"></td>
                         </tr>
-
-                        <tr th:each="freq : ${freqs}">
-                            <td th:text="${freq}"> - </td>
-                        </tr>
-
-                       	<tr th:each="key: ${vswrInResults.keySet()}">
-        					<td th:text="${vswrInResults.get(key).value}"> - </td>
-    					</tr>
+						<tr>
+							<td>КСВН входа</td>
+							<td th:each="freq : ${freqs}" th:text="${procedure.vswrInResults.get(freq).value}"></td>
+						</tr>
+						<tr>
+							<td>КСВН выхода</td>
+							<td th:each="freq : ${freqs}" th:text="${procedure.vswrOutResults.get(freq).value}"></td>
+						</tr>
                     </table>
                 </div>
+            </div>
         </div>
 
 
