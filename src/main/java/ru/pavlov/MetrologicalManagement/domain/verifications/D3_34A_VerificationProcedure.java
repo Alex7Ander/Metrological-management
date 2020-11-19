@@ -1,6 +1,6 @@
 package ru.pavlov.MetrologicalManagement.domain.verifications;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.MapKey;
@@ -16,44 +16,33 @@ import ru.pavlov.MetrologicalManagement.domain.measurment.VSWRMeasurmentResult;
 public class D3_34A_VerificationProcedure extends VerificationProcedure {
 	
 	@OneToMany(mappedBy = "verificationProcedure")
-	@MapKey(name = "freq")
-	private Map<Double, VSWRMeasurmentResult> vswrInResults;
+	private List<VSWRMeasurmentResult> vswrResults;
 	
 	@OneToMany(mappedBy = "verificationProcedure")
 	@MapKey(name = "freq")
-	private Map<Double, VSWRMeasurmentResult> vswrOutResults;
-	
-	@OneToMany(mappedBy = "verificationProcedure")
-	@MapKey(name = "freq")
-	private Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults;
+	private List<InitialAttenuationMeasurmentResult> initialAttenuationResults;
 		
 	@OneToMany(mappedBy = "verificationProcedure")
 	@MapKey(name = "freq")
-	private Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult;
+	private List<DifferentialAttenuationMeasurmentResult> differentialAttenuationResult;
 	
-	public Map<Double, VSWRMeasurmentResult> getVswrInResults() {
-		return vswrInResults;
-	}
-	public void setVswrInResults(Map<Double, VSWRMeasurmentResult> vswrInResults) {
-		this.vswrInResults = vswrInResults;
-	}
-	public Map<Double, InitialAttenuationMeasurmentResult> getInitialAttenuationResults() {
+	public List<InitialAttenuationMeasurmentResult> getInitialAttenuationResults() {
 		return initialAttenuationResults;
 	}
-	public void setInitialAttenuationResults(Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults) {
+	public void setInitialAttenuationResults(List<InitialAttenuationMeasurmentResult> initialAttenuationResults) {
 		this.initialAttenuationResults = initialAttenuationResults;
 	}
-	public Map<Double, DifferentialAttenuationMeasurmentResult> getDifferentialAttenuationResult() {
+	public List<DifferentialAttenuationMeasurmentResult> getDifferentialAttenuationResult() {
 		return differentialAttenuationResult;
 	}
 	public void setDifferentialAttenuationResult(
-			Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult) {
+			List<DifferentialAttenuationMeasurmentResult> differentialAttenuationResult) {
 		this.differentialAttenuationResult = differentialAttenuationResult;
 	}
-	public Map<Double, VSWRMeasurmentResult> getVswrOutResults() {
-		return vswrOutResults;
+	public List<VSWRMeasurmentResult> getVswrResults() {
+		return vswrResults;
 	}
-	public void setVswrOutResults(Map<Double, VSWRMeasurmentResult> vswrOutResults) {
-		this.vswrOutResults = vswrOutResults;
+	public void setVswrResults(List<VSWRMeasurmentResult> vswrResults) {
+		this.vswrResults = vswrResults;
 	}
 }

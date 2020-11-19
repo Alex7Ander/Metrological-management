@@ -55,27 +55,79 @@
 	            <div class="col-md-6">
 	                <h5>Таблица 2 - Измеренные значения начального ослабления</h5>
 	            </div>
-        	</div>
+			</div>
 
-        	<div class="row">
-                <div class="col-md-6">                   
-                    <table style="width: 100%;">
-                        <tr>
-                        	<td>Измеренные значения</td>
-                            <td th:each="freq : ${freqs}" th:text="${freq} + ' ГГц'"></td>
-                        </tr>
+			<div class="row">
+				<div class="col-md-6">
+					<table style="width: 100%;">
+						<tr>
+							<td>Измеренные значения</td>
+							<td th:each="freq : ${freqs}" th:text="${freq} + ' ГГц'"></td>
+						</tr>
 						<tr>
 							<td>КСВН входа</td>
-							<td th:each="freq : ${freqs}" th:text="${procedure.vswrInResults.get(freq).value}"></td>
+							<td th:each="result: ${procedure.getVswrResults()}" th:if="${result.portNumber == 1}" th:text="${result.value}"></td>
 						</tr>
 						<tr>
 							<td>КСВН выхода</td>
-							<td th:each="freq : ${freqs}" th:text="${procedure.vswrOutResults.get(freq).value}"></td>
+							<td th:each="result: ${procedure.getVswrResults()}" th:if="${result.portNumber == 2}" th:text="${result.value}"></td>
 						</tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+					</table>  
+				</div>
+				<div class="col-md-6">
+					<table style="width: 100%;">
+						<tr>
+							<td>Измеренные значения</td>
+							<td th:each="freq : ${freqs}" th:text="${freq} + ' ГГц'"></td>
+						</tr>
+						<tr>
+							<td>Нач. ослаб.</td>
+							<td th:each="result: ${procedure.getInitialAttenuationResults()}" th:text="${result.value}"></td>
+						</tr>
+					</table>  
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<h5>Таблица 3 - Измеренные значения разностного ослабления</h5>
+					<table style="width: 100%;">
+						<tr>
+							<td>Измеренные значения</td>
+							<td th:each="freq : ${freqs}" th:text="${freq} + ' ГГц'"></td>
+						</tr>
+						<tr>
+							<td>0-10</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 10}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-20</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 20}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-30</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 30}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-40</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 40}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-50</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 50}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-60</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 60}" th:text="${result.value}"></td>
+						</tr>
+						<tr>
+							<td>0-70</td>
+							<td th:each="result: ${procedure.getDifferentialAttenuationResult()}" th:if="${result.getStopAttenuation() == 70}" th:text="${result.value}"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
 
 
 		<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>

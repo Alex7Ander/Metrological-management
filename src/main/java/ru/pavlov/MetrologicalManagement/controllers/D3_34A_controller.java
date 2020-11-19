@@ -3,9 +3,11 @@ package ru.pavlov.MetrologicalManagement.controllers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -122,21 +124,14 @@ public class D3_34A_controller {
 		System.out.println("currentProcedureHashCode = " + currentProcedureHashCode);
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(currentProcedureHashCode);
 		String answer = null;
-		if(currentProcedure != null) {
-			Map<Double,  VSWRMeasurmentResult> vswrInResults = new LinkedHashMap<>();
-			Map<Double,  VSWRMeasurmentResult> vswrOutResults = new LinkedHashMap<>();
+		if(currentProcedure != null) {			
+			List<VSWRMeasurmentResult> vswrResults = new ArrayList<>();
 			for(VSWRMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
 				result.setVerificationProcedure(currentProcedure);
-				if(result.getPortNumber() == 1) {
-					vswrInResults.put(result.getFreq(), result);
-				}
-				else {
-					vswrOutResults.put(result.getFreq(), result);
-				}
+				vswrResults.add(result);
 			}
-			currentProcedure.setVswrInResults(vswrInResults);
-			currentProcedure.setVswrOutResults(vswrOutResults);			
+			currentProcedure.setVswrResults(vswrResults);			
 			verificationService.setVerificationProcedure(currentProcedure);
 			answer = verificationService.verificateVswr();			
 		}
@@ -154,11 +149,11 @@ public class D3_34A_controller {
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(currentProcedureHashCode);
 		String answer = null;
 		if(currentProcedure != null) {
-			Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults = new LinkedHashMap<>();
+			List<InitialAttenuationMeasurmentResult> initialAttenuationResults = new ArrayList<>();
 			for(InitialAttenuationMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
 				result.setVerificationProcedure(currentProcedure);
-				initialAttenuationResults.put(result.getFreq(), result);
+				initialAttenuationResults.add(result);
 			}
 			currentProcedure.setInitialAttenuationResults(initialAttenuationResults);
 			verificationService.setVerificationProcedure(currentProcedure);
@@ -178,11 +173,11 @@ public class D3_34A_controller {
 		D3_34A_VerificationProcedure currentProcedure = verificationProcedures.get(currentProcedureHashCode);
 		String answer = null;
 		if(currentProcedure != null) {
-			Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult = new LinkedHashMap<>();
+			List<DifferentialAttenuationMeasurmentResult> differentialAttenuationResult = new ArrayList<>();
 			for(DifferentialAttenuationMeasurmentResult result : results.getResults()) {
 				System.out.println(result.toString());
 				result.setVerificationProcedure(currentProcedure);
-				differentialAttenuationResult.put(result.getFreq(), result);
+				differentialAttenuationResult.add(result);
 			}
 			currentProcedure.setDifferentialAttenuationResult(differentialAttenuationResult);
 			verificationService.setVerificationProcedure(currentProcedure);
@@ -205,24 +200,17 @@ public class D3_34A_controller {
 		verificationProcedureRepo.save(currentProcedure);
 		
 		System.out.println("Saving VSWR");
-		for(Double freq : currentProcedure.getVswrInResults().keySet()) {
-			VSWRMeasurmentResult result = currentProcedure.getVswrInResults().get(freq);
-			vswrMeasurmentResultRepo.save(result);
-		}
-		for(Double freq : currentProcedure.getVswrOutResults().keySet()) {
-			VSWRMeasurmentResult result = currentProcedure.getVswrOutResults().get(freq);
+		for(VSWRMeasurmentResult result : currentProcedure.getVswrResults()) {
 			vswrMeasurmentResultRepo.save(result);
 		}
 		
 		System.out.println("Saving initial attenuation");
-		for(Double freq : currentProcedure.getInitialAttenuationResults().keySet()) {
-			InitialAttenuationMeasurmentResult result = currentProcedure.getInitialAttenuationResults().get(freq);
+		for(InitialAttenuationMeasurmentResult result : currentProcedure.getInitialAttenuationResults()) {
 			initialAttenuationMeasurmentResultRepo.save(result);
 		}
 		
 		System.out.println("Saving differential attenuation");
-		for(Double freq : currentProcedure.getDifferentialAttenuationResult().keySet()) {
-			DifferentialAttenuationMeasurmentResult result = currentProcedure.getDifferentialAttenuationResult().get(freq);
+		for(DifferentialAttenuationMeasurmentResult result : currentProcedure.getDifferentialAttenuationResult()) {
 			differentialAttenuationMeasurmentResultRepo.save(result);
 		}
 		
@@ -236,12 +224,19 @@ public class D3_34A_controller {
 	public String showVerificationProcedure(@RequestParam long id, Model model) {
 		D3_34A_VerificationProcedure procedure = (D3_34A_VerificationProcedure)verificationProcedureRepo.findById(id);
 		
-		Map<Double, VSWRMeasurmentResult> vswrInResults = procedure.getVswrInResults();	
-		Set<Double> freqs = vswrInResults.keySet();
+		List<VSWRMeasurmentResult> vswrResults = procedure.getVswrResults();
+		Set<Double> freqs = new HashSet<>();
+		for(int i = 0;  i<vswrResults.size(); i++) {
+			double freq = vswrResults.get(i).getFreq();
+			freqs.add(freq);
+		}
 		model.addAttribute("freqs", freqs);
-		
-		model.addAttribute("vswrInResults", vswrInResults);
 		model.addAttribute("procedure", procedure);
+		
+		for(DifferentialAttenuationMeasurmentResult dar : procedure.getDifferentialAttenuationResult()) {
+			System.out.println(dar.toString());
+		}
+		
 		
 		return "d3-34a_verificationProcedureResults";
 	}

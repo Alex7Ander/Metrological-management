@@ -2,7 +2,6 @@ package ru.pavlov.MetrologicalManagement.services.verificationServices;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ru.pavlov.MetrologicalManagement.domain.measurment.DifferentialAttenuationMeasurmentResult;
@@ -33,14 +32,13 @@ public class D3_34A_VerificationService {
 	 */
 	public String verificateVswr() {
 		List<Double> errorFreqsForVswrIn = new ArrayList<>();
-		List<Double> errorFreqsForVswrOut = new ArrayList<>();
-		
-		for(double freq : this.verificationProcedure.getVswrInResults().keySet()) {
-			VSWRMeasurmentResult currentRes = this.verificationProcedure.getVswrInResults().get(freq);
+		List<Double> errorFreqsForVswrOut = new ArrayList<>();		
+		for(VSWRMeasurmentResult currentRes : this.verificationProcedure.getVswrResults()) {
 			try {
-				if( ! this.verificateSingleVswrValue(freq, currentRes.getValue()) ) {
+				if(!this.verificateSingleVswrValue(currentRes)) {
 					currentRes.setVerificationStatus("Не годен");
-					errorFreqsForVswrIn.add(freq);
+					if(currentRes.getPortNumber() == 1) errorFreqsForVswrIn.add(currentRes.getFreq());
+					else errorFreqsForVswrOut.add(currentRes.getFreq());
 					continue;
 				}
 			}
@@ -49,22 +47,6 @@ public class D3_34A_VerificationService {
 			}
 			currentRes.setVerificationStatus("Годен");			
 		}
-		
-		for(double freq : this.verificationProcedure.getVswrOutResults().keySet()) {
-			VSWRMeasurmentResult currentRes = this.verificationProcedure.getVswrOutResults().get(freq);
-			try {
-				if( ! this.verificateSingleVswrValue(freq, currentRes.getValue()) ) {
-					currentRes.setVerificationStatus("Не годен");
-					errorFreqsForVswrOut.add(freq);
-					continue;
-				}
-				currentRes.setVerificationStatus("Годен");
-			}
-			catch(FrequencyOutOfRangeException fExp) {
-				currentRes.setVerificationStatus(fExp.getMessage());
-			}			
-		}
-		
 		String answer = null;
 		if(errorFreqsForVswrIn.isEmpty() && errorFreqsForVswrOut.isEmpty()) {
 			answer = "Значения КСВН входа и выхода не более 1,20 в диапазоне частот 12,05-12,30 и\nне более 1,15 вдиапазоне частот 12,30-17,44 ГГц";
@@ -84,8 +66,10 @@ public class D3_34A_VerificationService {
 		return answer;
 	}
 	
-	private boolean verificateSingleVswrValue(double freq, double value) throws FrequencyOutOfRangeException {
+	private boolean verificateSingleVswrValue(VSWRMeasurmentResult currentRes) throws FrequencyOutOfRangeException {
 		double currentLimitvalue = 0;
+		double freq = currentRes.getValue();
+		double value = currentRes.getValue();
 		if(freq >= 12.05 || freq <=12.30) {
 			currentLimitvalue = this.lowFreqVswrLimitValue;
 		}
@@ -117,13 +101,11 @@ public class D3_34A_VerificationService {
 	 */
 	public String verificateInitialAttenuation() {
 		List<Double> errorFreqs = new ArrayList<>();
-		Map<Double, InitialAttenuationMeasurmentResult> initialAttenuationResults = this.verificationProcedure.getInitialAttenuationResults();
-		for(double freq : initialAttenuationResults.keySet()) {
-			InitialAttenuationMeasurmentResult currentRes = initialAttenuationResults.get(freq);
+		for(InitialAttenuationMeasurmentResult currentRes : this.verificationProcedure.getInitialAttenuationResults()) {
 			try {
-				if(!this.verificateSingleInitialAttenuationValue(freq, currentRes.getValue())) {
+				if(!this.verificateSingleInitialAttenuationValue(currentRes)) {
 					currentRes.setVerificationStatus("Не годен");
-					errorFreqs.add(freq);
+					errorFreqs.add(currentRes.getFreq());
 					continue;
 				}
 				currentRes.setVerificationStatus("Годен");
@@ -150,7 +132,9 @@ public class D3_34A_VerificationService {
 		return answer;
 	}
 	
-	private boolean verificateSingleInitialAttenuationValue(double freq, double value) throws FrequencyOutOfRangeException {
+	private boolean verificateSingleInitialAttenuationValue(InitialAttenuationMeasurmentResult currentRes) throws FrequencyOutOfRangeException {
+		double freq = currentRes.getFreq();
+		double value = currentRes.getValue();
 		if(freq < 12.05 || freq > 17.44) {
 			throw new FrequencyOutOfRangeException(freq, "Прибор Д3-34А работает в диапазоне от 12,05 до 17,44 ГГц");
 		}
@@ -165,16 +149,11 @@ public class D3_34A_VerificationService {
 	 */	
 	public String verificateDifferentialAttenuation() {
 		List<Double> errorFreqs = new ArrayList<>();
-		Map<Double, DifferentialAttenuationMeasurmentResult> differentialAttenuationResult = this.verificationProcedure.getDifferentialAttenuationResult();
-		for(double freq : differentialAttenuationResult.keySet()) {
-			DifferentialAttenuationMeasurmentResult currentRes = differentialAttenuationResult.get(freq);
+		for(DifferentialAttenuationMeasurmentResult currentRes : this.verificationProcedure.getDifferentialAttenuationResult()) {
 			try {
-				if(!verificateSingleDifferentialAttenuationValue(freq, 
-																currentRes.getValue(), 
-																currentRes.getStartAttenuation(), 
-																currentRes.getStopAttenuation())) {
+				if(!verificateSingleDifferentialAttenuationValue(currentRes)){
 					currentRes.setVerificationStatus("Не годен");
-					errorFreqs.add(freq);
+					errorFreqs.add(currentRes.getFreq());
 					continue;
 				}
 				currentRes.setVerificationStatus("Годен");
@@ -201,7 +180,11 @@ public class D3_34A_VerificationService {
 		return answer;
 	}
 	
-	private boolean verificateSingleDifferentialAttenuationValue(double freq, double value, double startAtt, double stopAtt) throws FrequencyOutOfRangeException {
+	private boolean verificateSingleDifferentialAttenuationValue(DifferentialAttenuationMeasurmentResult currentRes) throws FrequencyOutOfRangeException {
+		double freq = currentRes.getFreq();
+		double value = currentRes.getValue();
+		double startAtt = currentRes.getStartAttenuation();
+		double stopAtt = currentRes.getStopAttenuation();
 		if(freq < 12.05 || freq > 17.44) {
 			throw new FrequencyOutOfRangeException(freq, "Прибор Д3-34А работает в диапазоне от 12,05 до 17,44 ГГц");
 		}
